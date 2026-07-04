@@ -224,7 +224,7 @@ blockquote {
 }
 
 .graph-node text {
-  fill: #fff;
+  fill: #00ff00;
   font-size: 13px;
   font-weight: 700;
   pointer-events: none;
