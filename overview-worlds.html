@@ -1,41 +1,446 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>あなたのＨＰタイトル</title>
-<meta name="description" content="ページの説明">
-<meta name="keywords" content="ページのキーワードA,B,C">
+<meta charset="utf-8">
+<title>Overview Worlds | Quest Base</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="index.css">
+<meta name="description" content="Quest Baseの世界たちを、ハイパーリンクのグラフ構造として見える化するページです。">
+<meta name="keywords" content="Quest Base, Worlds, Graph, Hyperlink, Learning, Research, Development">
+<link rel="stylesheet" href="overview-worlds.css">
 </head>
+
 <body>
 <div id="outer">
 <header>
-<div id="header-inner">
-<h1>あなたのＨＰタイトル</h1>
-<p class="description">あなたのＨＰの説明文</p>
-</div>
+  <div id="header-inner">
+    <h1><a href="./index.html">Quest Base</a></h1>
+    <p class="description">Overview Worlds — hyperlinks as a living graph</p>
+  </div>
 </header>
-<div id="content">
-<div class="inner"><h2>記事ページ見出し・大</h2>
-<p>文章あれこれ</p>
-<h3>記事ページ見出し・中</h3>
-<p>文章あれこれ</p>
-<h4>記事ページ見出し・小</h4>
-<p>文章あれこれ</p>
-</div>
-</div>
+
+<div id="container">
+<main>
+<section id="text">
+  <h2>Overview Worlds</h2>
+  <p>
+    This page shows the worlds of Quest Base as a graph structure.
+    Each circle is a world, and each line shows a hyperlink or conceptual connection.
+  </p>
+  <p>
+    Click a node to open the corresponding page. Drag nodes to move them.
+  </p>
+</section>
+
+<section class="graph-panel" aria-label="Hyperlink graph of Quest Base worlds">
+  <div class="graph-toolbar">
+    <button type="button" id="resetGraph">Reset layout</button>
+    <span id="selectedNode">Select a node</span>
+  </div>
+
+  <svg id="worldGraph" viewBox="0 0 1000 650" role="img" aria-label="Quest Base hyperlink graph"></svg>
+
+  <div class="graph-note">
+    <p>
+      To add more pages, edit the <code>nodes</code> and <code>edges</code> arrays
+      in <code>overview-worlds.html</code>.
+    </p>
+  </div>
+</section>
+</main>
+
 <aside>
-<div id="side-inner">
-<div class="side-title">サイドバータイトル</div>
-<div class="side">
-<ul>
-<li>記事ページへのリンク</li>
-<li>記事ページへのリンク</li>
-</ul>
-</div>
-</div>
+  <div class="side-title">menu</div>
+  <div class="side">
+    <ul>
+      <li><a href="./index.html">Quest Base Home</a></li>
+      <li><a href="./overview-worlds.html">Overview Worlds</a></li>
+      <li><a href="./know-yourself.html">Know Yourself</a></li>
+      <li><a href="./learn-world.html">Learn World</a></li>
+      <li><a href="./research-world.html">Research World</a></li>
+      <li><a href="./develop-world.html">Develop World</a></li>
+    </ul>
+  </div>
 </aside>
-<footer>© 2010 あなたのホームページ</footer>
-</div></body>
+</div>
+
+<footer>© Quest Base</footer>
+</div>
+
+<script>
+/*
+  Quest Base hyperlink graph
+
+  Add a page:
+  1. Add one object to nodes.
+  2. Add one or more relationships to edges.
+  3. Upload this file and overview-worlds.css to the GitHub Pages repository.
+*/
+
+const nodes = [
+  {
+    id: "home",
+    label: "Quest Base",
+    url: "./index.html",
+    group: "core",
+    description: "The entrance of Quest Base."
+  },
+  {
+    id: "overview",
+    label: "Overview Worlds",
+    url: "./overview-worlds.html",
+    group: "core",
+    description: "A map of all worlds."
+  },
+  {
+    id: "know",
+    label: "Know Yourself",
+    url: "./know-yourself.html",
+    group: "inner",
+    description: "A world for understanding yourself."
+  },
+  {
+    id: "learn",
+    label: "Learn World",
+    url: "./learn-world.html",
+    group: "learning",
+    description: "A world for learning independently."
+  },
+  {
+    id: "research",
+    label: "Research World",
+    url: "./research-world.html",
+    group: "research",
+    description: "A world for asking questions and creating knowledge."
+  },
+  {
+    id: "develop",
+    label: "Develop World",
+    url: "./develop-world.html",
+    group: "development",
+    description: "A world for building systems and tools."
+  },
+  {
+    id: "philosophy",
+    label: "Philosophy",
+    url: "./philosophy.html",
+    group: "inner",
+    description: "A world for values, meanings, and questions."
+  },
+  {
+    id: "education",
+    label: "Education",
+    url: "./education.html",
+    group: "learning",
+    description: "A world for learning systems."
+  },
+  {
+    id: "pharmacy",
+    label: "Pharmacy / Medical Science",
+    url: "./pharmacy-medical-science.html",
+    group: "research",
+    description: "A world for medicine, pharmacy, and life science."
+  },
+  {
+    id: "informatics",
+    label: "Information Science",
+    url: "./information-science.html",
+    group: "development",
+    description: "A world for computation and information."
+  },
+  {
+    id: "augmentation",
+    label: "Human Augmentation",
+    url: "./human-augmentation.html",
+    group: "development",
+    description: "A world for expanding human ability."
+  },
+  {
+    id: "creative",
+    label: "Creative Worlds",
+    url: "./creative-worlds.html",
+    group: "creative",
+    description: "A world for making new values."
+  }
+];
+
+const edges = [
+  { source: "home", target: "overview" },
+  { source: "overview", target: "know" },
+  { source: "overview", target: "learn" },
+  { source: "overview", target: "research" },
+  { source: "overview", target: "develop" },
+  { source: "know", target: "philosophy" },
+  { source: "learn", target: "education" },
+  { source: "research", target: "pharmacy" },
+  { source: "research", target: "informatics" },
+  { source: "develop", target: "informatics" },
+  { source: "develop", target: "augmentation" },
+  { source: "philosophy", target: "creative" },
+  { source: "education", target: "creative" },
+  { source: "informatics", target: "augmentation" },
+  { source: "augmentation", target: "creative" }
+];
+
+const svg = document.getElementById("worldGraph");
+const selectedNode = document.getElementById("selectedNode");
+const resetButton = document.getElementById("resetGraph");
+const width = 1000;
+const height = 650;
+const centerX = width / 2;
+const centerY = height / 2;
+
+const groupClass = {
+  core: "node-core",
+  inner: "node-inner",
+  learning: "node-learning",
+  research: "node-research",
+  development: "node-development",
+  creative: "node-creative"
+};
+
+const nodeById = new Map(nodes.map(node => [node.id, node]));
+
+function setInitialPositions() {
+  const radius = 250;
+  nodes.forEach((node, index) => {
+    if (node.id === "home") {
+      node.x = centerX - 80;
+      node.y = centerY;
+    } else if (node.id === "overview") {
+      node.x = centerX + 80;
+      node.y = centerY;
+    } else {
+      const angle = ((index - 2) / (nodes.length - 2)) * Math.PI * 2 - Math.PI / 2;
+      node.x = centerX + Math.cos(angle) * radius;
+      node.y = centerY + Math.sin(angle) * radius;
+    }
+    node.vx = 0;
+    node.vy = 0;
+    node.fixed = false;
+  });
+}
+
+function createSvgElement(name, attrs = {}) {
+  const element = document.createElementNS("http://www.w3.org/2000/svg", name);
+  for (const [key, value] of Object.entries(attrs)) {
+    element.setAttribute(key, value);
+  }
+  return element;
+}
+
+function clearSvg() {
+  while (svg.firstChild) {
+    svg.removeChild(svg.firstChild);
+  }
+}
+
+function render() {
+  clearSvg();
+
+  const edgeLayer = createSvgElement("g", { class: "edge-layer" });
+  const nodeLayer = createSvgElement("g", { class: "node-layer" });
+
+  edges.forEach(edge => {
+    const source = nodeById.get(edge.source);
+    const target = nodeById.get(edge.target);
+
+    const line = createSvgElement("line", {
+      class: "edge",
+      x1: source.x,
+      y1: source.y,
+      x2: target.x,
+      y2: target.y
+    });
+
+    edgeLayer.appendChild(line);
+  });
+
+  nodes.forEach(node => {
+    const g = createSvgElement("g", {
+      class: "graph-node " + (groupClass[node.group] || ""),
+      transform: `translate(${node.x}, ${node.y})`,
+      tabindex: "0",
+      role: "link",
+      "aria-label": `${node.label}: ${node.description}`
+    });
+
+    const circle = createSvgElement("circle", {
+      r: node.id === "home" || node.id === "overview" ? 45 : 38
+    });
+
+    const text = createSvgElement("text", {
+      "text-anchor": "middle",
+      "dominant-baseline": "middle"
+    });
+
+    wrapSvgText(text, node.label, 0, 0, 84);
+
+    g.appendChild(circle);
+    g.appendChild(text);
+
+    g.addEventListener("click", () => {
+      selectedNode.textContent = `${node.label} → ${node.url}`;
+      window.location.href = node.url;
+    });
+
+    g.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        window.location.href = node.url;
+      }
+    });
+
+    g.addEventListener("pointerdown", event => startDrag(event, node));
+
+    g.addEventListener("mouseenter", () => {
+      selectedNode.textContent = `${node.label}: ${node.description}`;
+    });
+
+    nodeLayer.appendChild(g);
+  });
+
+  svg.appendChild(edgeLayer);
+  svg.appendChild(nodeLayer);
+}
+
+function wrapSvgText(textElement, label, x, y, maxWidth) {
+  const words = label.split(" ");
+  const lines = [];
+  let current = "";
+
+  words.forEach(word => {
+    const test = current ? `${current} ${word}` : word;
+    if (test.length > 13 && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = test;
+    }
+  });
+  if (current) lines.push(current);
+
+  const lineHeight = 14;
+  const startY = y - ((lines.length - 1) * lineHeight) / 2;
+
+  lines.forEach((line, index) => {
+    const tspan = createSvgElement("tspan", {
+      x,
+      y: startY + index * lineHeight
+    });
+    tspan.textContent = line;
+    textElement.appendChild(tspan);
+  });
+}
+
+function simulate(iterations = 90) {
+  for (let i = 0; i < iterations; i++) {
+    // Repulsion
+    for (let a = 0; a < nodes.length; a++) {
+      for (let b = a + 1; b < nodes.length; b++) {
+        const nodeA = nodes[a];
+        const nodeB = nodes[b];
+        let dx = nodeB.x - nodeA.x;
+        let dy = nodeB.y - nodeA.y;
+        let distanceSquared = dx * dx + dy * dy;
+        if (distanceSquared < 1) distanceSquared = 1;
+        const distance = Math.sqrt(distanceSquared);
+        const force = 2600 / distanceSquared;
+        const fx = (dx / distance) * force;
+        const fy = (dy / distance) * force;
+
+        if (!nodeA.fixed) {
+          nodeA.vx -= fx;
+          nodeA.vy -= fy;
+        }
+        if (!nodeB.fixed) {
+          nodeB.vx += fx;
+          nodeB.vy += fy;
+        }
+      }
+    }
+
+    // Link attraction
+    edges.forEach(edge => {
+      const source = nodeById.get(edge.source);
+      const target = nodeById.get(edge.target);
+      const dx = target.x - source.x;
+      const dy = target.y - source.y;
+      const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+      const desired = 150;
+      const force = (distance - desired) * 0.012;
+      const fx = (dx / distance) * force;
+      const fy = (dy / distance) * force;
+
+      if (!source.fixed) {
+        source.vx += fx;
+        source.vy += fy;
+      }
+      if (!target.fixed) {
+        target.vx -= fx;
+        target.vy -= fy;
+      }
+    });
+
+    // Center gravity
+    nodes.forEach(node => {
+      if (!node.fixed) {
+        node.vx += (centerX - node.x) * 0.003;
+        node.vy += (centerY - node.y) * 0.003;
+        node.vx *= 0.86;
+        node.vy *= 0.86;
+        node.x += node.vx;
+        node.y += node.vy;
+        node.x = Math.max(70, Math.min(width - 70, node.x));
+        node.y = Math.max(70, Math.min(height - 70, node.y));
+      }
+    });
+  }
+}
+
+let dragging = null;
+
+function startDrag(event, node) {
+  event.preventDefault();
+  dragging = node;
+  dragging.fixed = true;
+  svg.setPointerCapture(event.pointerId);
+  selectedNode.textContent = `${node.label}: dragging`;
+}
+
+svg.addEventListener("pointermove", event => {
+  if (!dragging) return;
+  const point = getSvgPoint(event);
+  dragging.x = Math.max(70, Math.min(width - 70, point.x));
+  dragging.y = Math.max(70, Math.min(height - 70, point.y));
+  render();
+});
+
+svg.addEventListener("pointerup", event => {
+  if (!dragging) return;
+  dragging.fixed = false;
+  selectedNode.textContent = `${dragging.label}: ${dragging.description}`;
+  dragging = null;
+  simulate(20);
+  render();
+});
+
+function getSvgPoint(event) {
+  const point = svg.createSVGPoint();
+  point.x = event.clientX;
+  point.y = event.clientY;
+  return point.matrixTransform(svg.getScreenCTM().inverse());
+}
+
+resetButton.addEventListener("click", () => {
+  setInitialPositions();
+  simulate();
+  render();
+  selectedNode.textContent = "Layout reset";
+});
+
+setInitialPositions();
+simulate();
+render();
+</script>
+</body>
 </html>
