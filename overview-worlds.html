@@ -57,7 +57,6 @@
       <li><a href="./know-yourself.html">Know Yourself</a></li>
       <li><a href="./learn-world.html">Learn World</a></li>
       <li><a href="./research-world.html">Research World</a></li>
-      <li><a href="./imagine-world.html">Imagine World</a></li>  
       <li><a href="./develop-world.html">Develop World</a></li>
     </ul>
   </div>
@@ -79,107 +78,141 @@
 
 const nodes = [
   {
-    id: "home",
-    label: "Quest Base",
-    url: "./index.html",
-    group: "core",
-    description: "The entrance of Quest Base."
-  },
-  {
     id: "overview",
     label: "Overview Worlds",
     url: "./overview-worlds.html",
     group: "core",
-    description: "A map of all worlds."
-  },
-  {
-    id: "know",
-    label: "Know Yourself",
-    url: "./know-yourself.html",
-    group: "inner",
-    description: "A world for understanding yourself."
+    description: "A map of all worlds.",
+    x: 500,
+    y: 325
   },
   {
     id: "learn",
     label: "Learn World",
     url: "./learn-world.html",
     group: "learning",
-    description: "A world for learning independently."
+    description: "A world for learning independently.",
+    x: 270,
+    y: 325
   },
   {
     id: "research",
     label: "Research World",
     url: "./research-world.html",
     group: "research",
-    description: "A world for asking questions and creating knowledge."
+    description: "A world for asking questions and creating knowledge.",
+    x: 500,
+    y: 110
+  },
+  {
+    id: "imagine",
+    label: "Imagine World",
+    url: "./imagine-world.html",
+    group: "creative",
+    description: "A world for imagination, vision, and new possibilities.",
+    x: 730,
+    y: 325
   },
   {
     id: "develop",
     label: "Develop World",
     url: "./develop-world.html",
     group: "development",
-    description: "A world for building systems and tools."
-  },
-  {
-    id: "philosophy",
-    label: "Philosophy",
-    url: "./philosophy.html",
-    group: "inner",
-    description: "A world for values, meanings, and questions."
+    description: "A world for building systems and tools.",
+    x: 500,
+    y: 540
   },
   {
     id: "education",
     label: "Education",
     url: "./education.html",
     group: "learning",
-    description: "A world for learning systems."
+    description: "A world for learning systems.",
+    x: 135,
+    y: 230
   },
   {
-    id: "pharmacy",
-    label: "Pharmacy / Medical Science",
-    url: "./pharmacy-medical-science.html",
-    group: "research",
-    description: "A world for medicine, pharmacy, and life science."
+    id: "know",
+    label: "Know Yourself",
+    url: "./know-yourself.html",
+    group: "inner",
+    description: "A world for understanding yourself.",
+    x: 135,
+    y: 420
   },
   {
-    id: "informatics",
-    label: "Information Science",
-    url: "./information-science.html",
-    group: "development",
-    description: "A world for computation and information."
+    id: "home",
+    label: "Quest Base",
+    url: "./index.html",
+    group: "core",
+    description: "The entrance of Quest Base.",
+    x: 70,
+    y: 120
   },
   {
-    id: "augmentation",
-    label: "Human Augmentation",
-    url: "./human-augmentation.html",
-    group: "development",
-    description: "A world for expanding human ability."
+    id: "philosophy",
+    label: "Philosophy",
+    url: "./philosophy.html",
+    group: "inner",
+    description: "A world for values, meanings, and questions.",
+    x: 735,
+    y: 105
   },
   {
     id: "creative",
     label: "Creative Worlds",
     url: "./creative-worlds.html",
     group: "creative",
-    description: "A world for making new values."
+    description: "A world for making new values.",
+    x: 270,
+    y: 590
+  },
+  {
+    id: "pharmacy",
+    label: "Pharmacy / Medical Science",
+    url: "./pharmacy-medical-science.html",
+    group: "research",
+    description: "A world for medicine, pharmacy, and life science.",
+    x: 420,
+    y: 620
+  },
+  {
+    id: "informatics",
+    label: "Information Science",
+    url: "./information-science.html",
+    group: "development",
+    description: "A world for computation and information.",
+    x: 580,
+    y: 620
+  },
+  {
+    id: "augmentation",
+    label: "Human Augmentation",
+    url: "./human-augmentation.html",
+    group: "development",
+    description: "A world for expanding human ability.",
+    x: 730,
+    y: 590
   }
 ];
 
 const edges = [
-  { source: "home", target: "overview" },
-  { source: "overview", target: "know" },
   { source: "overview", target: "learn" },
   { source: "overview", target: "research" },
+  { source: "overview", target: "imagine" },
   { source: "overview", target: "develop" },
-  { source: "know", target: "philosophy" },
+
   { source: "learn", target: "education" },
-  { source: "research", target: "pharmacy" },
-  { source: "research", target: "informatics" },
+  { source: "learn", target: "know" },
+
+  { source: "education", target: "home" },
+
+  { source: "research", target: "philosophy" },
+
+  { source: "develop", target: "creative" },
+  { source: "develop", target: "pharmacy" },
   { source: "develop", target: "informatics" },
-  { source: "develop", target: "augmentation" },
-  { source: "philosophy", target: "creative" },
-  { source: "education", target: "creative" },
-  { source: "informatics", target: "augmentation" },
-  { source: "augmentation", target: "creative" }
+  { source: "develop", target: "augmentation" }
 ];
 
 const svg = document.getElementById("worldGraph");
@@ -202,19 +235,9 @@ const groupClass = {
 const nodeById = new Map(nodes.map(node => [node.id, node]));
 
 function setInitialPositions() {
-  const radius = 250;
-  nodes.forEach((node, index) => {
-    if (node.id === "home") {
-      node.x = centerX - 80;
-      node.y = centerY;
-    } else if (node.id === "overview") {
-      node.x = centerX + 80;
-      node.y = centerY;
-    } else {
-      const angle = ((index - 2) / (nodes.length - 2)) * Math.PI * 2 - Math.PI / 2;
-      node.x = centerX + Math.cos(angle) * radius;
-      node.y = centerY + Math.sin(angle) * radius;
-    }
+  nodes.forEach(node => {
+    node.initialX = node.x;
+    node.initialY = node.y;
     node.vx = 0;
     node.vy = 0;
     node.fixed = false;
@@ -334,68 +357,11 @@ function wrapSvgText(textElement, label, x, y, maxWidth) {
 }
 
 function simulate(iterations = 90) {
-  for (let i = 0; i < iterations; i++) {
-    // Repulsion
-    for (let a = 0; a < nodes.length; a++) {
-      for (let b = a + 1; b < nodes.length; b++) {
-        const nodeA = nodes[a];
-        const nodeB = nodes[b];
-        let dx = nodeB.x - nodeA.x;
-        let dy = nodeB.y - nodeA.y;
-        let distanceSquared = dx * dx + dy * dy;
-        if (distanceSquared < 1) distanceSquared = 1;
-        const distance = Math.sqrt(distanceSquared);
-        const force = 2600 / distanceSquared;
-        const fx = (dx / distance) * force;
-        const fy = (dy / distance) * force;
-
-        if (!nodeA.fixed) {
-          nodeA.vx -= fx;
-          nodeA.vy -= fy;
-        }
-        if (!nodeB.fixed) {
-          nodeB.vx += fx;
-          nodeB.vy += fy;
-        }
-      }
-    }
-
-    // Link attraction
-    edges.forEach(edge => {
-      const source = nodeById.get(edge.source);
-      const target = nodeById.get(edge.target);
-      const dx = target.x - source.x;
-      const dy = target.y - source.y;
-      const distance = Math.sqrt(dx * dx + dy * dy) || 1;
-      const desired = 150;
-      const force = (distance - desired) * 0.012;
-      const fx = (dx / distance) * force;
-      const fy = (dy / distance) * force;
-
-      if (!source.fixed) {
-        source.vx += fx;
-        source.vy += fy;
-      }
-      if (!target.fixed) {
-        target.vx -= fx;
-        target.vy -= fy;
-      }
-    });
-
-    // Center gravity
-    nodes.forEach(node => {
-      if (!node.fixed) {
-        node.vx += (centerX - node.x) * 0.003;
-        node.vy += (centerY - node.y) * 0.003;
-        node.vx *= 0.86;
-        node.vy *= 0.86;
-        node.x += node.vx;
-        node.y += node.vy;
-        node.x = Math.max(70, Math.min(width - 70, node.x));
-        node.y = Math.max(70, Math.min(height - 70, node.y));
-      }
-    });
-  }
+  // Fixed starting layout:
+  // Overview Worlds = center
+  // Learn / Research / Imagine / Develop = left / top / right / bottom
+  // The user can still drag nodes manually.
+  return;
 }
 
 let dragging = null;
@@ -433,11 +399,17 @@ function getSvgPoint(event) {
 }
 
 resetButton.addEventListener("click", () => {
-  setInitialPositions();
-  simulate();
+  nodes.forEach(node => {
+    node.x = node.initialX;
+    node.y = node.initialY;
+    node.vx = 0;
+    node.vy = 0;
+    node.fixed = false;
+  });
   render();
   selectedNode.textContent = "Layout reset";
 });
+
 
 setInitialPositions();
 simulate();
