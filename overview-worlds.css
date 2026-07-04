@@ -9,46 +9,44 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-#outer {
-}
-
 header {
   padding: 10px 20px;
   min-height: 94px;
   position: relative;
   z-index: 4;
   background: #dc143c;
-  background-size: auto;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 1);
 }
 
 #header-inner {
   margin: 0 auto;
-  max-width: 1000px;
+  max-width: 1180px;
 }
 
 .description {
   color: #fff;
-  padding-left: 0;
-  line-height: 1.2;
   margin: 4px 0 0 0;
   opacity: 0.9;
 }
 
 #container {
   margin: 0 auto;
-  max-width: 1000px;
+  max-width: 1180px;
   background-color: #fff;
   position: relative;
   z-index: 1;
   padding: 20px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 220px;
+  grid-template-columns: minmax(0, 1fr) 230px;
   gap: 24px;
 }
 
-#text {
-  padding: 0 0 10px 0;
+main {
+  min-width: 0;
+}
+
+aside {
+  min-width: 0;
 }
 
 ul {
@@ -58,23 +56,11 @@ ul {
 
 li {
   list-style: none;
+  margin: 0.35em 0;
 }
 
 p {
   margin: 1em 0;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-  border: 0;
-}
-
-hr {
-  border-width: 1px 0 0 0;
-  border-style: solid;
-  border-color: #ccc;
-  height: 1px;
 }
 
 body a {
@@ -95,8 +81,7 @@ h1 a {
 }
 
 h1 a:hover {
-  font-weight: bold;
-  color: #ffffff;
+  color: #fff;
   text-decoration: underline;
 }
 
@@ -104,14 +89,6 @@ h2, h3, h4 {
   font-size: 28px;
   margin: 4px 0 0 0;
   padding: 9px 0 7px 0;
-}
-
-main {
-  min-width: 0;
-}
-
-aside {
-  min-width: 0;
 }
 
 .side-title {
@@ -147,17 +124,11 @@ footer {
   text-align: center;
 }
 
-blockquote {
-  border: 1px solid #ccc;
-  padding: 5px;
-  margin: 10px;
-}
-
 .graph-panel {
   border: 1px solid #ddd;
   border-radius: 12px;
   background:
-    radial-gradient(circle at 20% 20%, rgba(220, 20, 60, 0.10), transparent 30%),
+    radial-gradient(circle at 50% 42%, rgba(220, 20, 60, 0.10), transparent 24%),
     linear-gradient(180deg, #fff, #fafafa);
   padding: 14px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -189,21 +160,67 @@ blockquote {
   font-size: 14px;
 }
 
-#worldGraph {
-  width: 100%;
-  height: auto;
-  min-height: 420px;
-  display: block;
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  font-size: 12px;
+  color: #444;
+  margin: 6px 0 12px 0;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-core { background: #dc143c; }
+.legend-learning { background: #2563eb; }
+.legend-research { background: #0f766e; }
+.legend-development { background: #b45309; }
+.legend-life { background: #16a34a; }
+.legend-earth { background: #0891b2; }
+.legend-space { background: #4f46e5; }
+.legend-challenge { background: #be123c; }
+
+.graph-scroll {
+  overflow: auto;
   border-radius: 10px;
+  border: 1px solid #e5e5e5;
   background:
     linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px),
     linear-gradient(180deg, rgba(0,0,0,0.04) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
+#worldGraph {
+  width: 100%;
+  min-width: 1180px;
+  height: auto;
+  min-height: 840px;
+  display: block;
+}
+
 .edge {
-  stroke: rgba(60, 60, 60, 0.32);
+  stroke: rgba(100, 100, 100, 1.0);
   stroke-width: 2;
+}
+
+.edge-active {
+  stroke: rgba(0, 150, 60, 1.0);
+  stroke-width: 4;
+}
+
+.edge-muted {
+  opacity: 0.15;
 }
 
 .graph-node {
@@ -215,7 +232,6 @@ blockquote {
   stroke: rgba(0, 0, 0, 0.36);
   stroke-width: 2;
   filter: drop-shadow(0 4px 5px rgba(0, 0, 0, 0.22));
-  transition: transform 0.15s ease, stroke-width 0.15s ease;
 }
 
 .graph-node:hover circle,
@@ -224,35 +240,36 @@ blockquote {
 }
 
 .graph-node text {
-  fill: #fff;
-  font-size: 13px;
+  fill: #00ff00;
+  font-size: 12px;
   font-weight: 700;
   pointer-events: none;
 }
 
-.node-core circle {
-  fill: #dc143c;
+.hidden-label {
+  display: none;
 }
 
-.node-inner circle {
-  fill: #7c3aed;
+.node-muted {
+  opacity: 0.18;
 }
 
-.node-learning circle {
-  fill: #2563eb;
-}
-
-.node-research circle {
-  fill: #0f766e;
-}
-
-.node-development circle {
-  fill: #b45309;
-}
-
-.node-creative circle {
-  fill: #be185d;
-}
+.node-core circle { fill: #dc143c; }
+.node-learning circle { fill: #2563eb; }
+.node-research circle { fill: #0f766e; }
+.node-development circle { fill: #b45309; }
+.node-imagination circle { fill: #be185d; }
+.node-inner circle { fill: #7c3aed; }
+.node-knowledge circle { fill: #334155; }
+.node-society circle { fill: #9333ea; }
+.node-nature circle { fill: #15803d; }
+.node-concept circle { fill: #64748b; }
+.node-system circle { fill: #ea580c; }
+.node-challenge circle { fill: #be123c; }
+.node-life circle { fill: #16a34a; }
+.node-earth circle { fill: #0891b2; }
+.node-space circle { fill: #4f46e5; }
+.node-default circle { fill: #555; }
 
 .graph-note {
   font-size: 13px;
@@ -271,14 +288,6 @@ blockquote {
     max-width: 100%;
   }
 
-  main {
-    width: 100%;
-  }
-
-  aside {
-    width: 100%;
-  }
-
   #container {
     display: block;
     margin: 0;
@@ -295,11 +304,30 @@ blockquote {
     font-size: 24px;
   }
 
-  #worldGraph {
-    min-height: 360px;
-  }
-
   .graph-panel {
     padding: 10px;
   }
+
+  #worldGraph {
+    min-width: 1050px;
+    min-height: 740px;
+  }
+}
+
+.viewport-group {
+  transform-box: fill-box;
+}
+
+#worldGraph {
+  cursor: grab;
+  touch-action: none;
+  overscroll-behavior: contain;
+}
+
+#worldGraph.is-panning {
+  cursor: grabbing;
+}
+
+.graph-node {
+  cursor: pointer;
 }
