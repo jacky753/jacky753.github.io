@@ -1,6 +1,6 @@
 @charset "UTF-8";
 body {
-	background: #dc143c; /*#F7F7F7;*/
+	background: #F7F7F7;/*#dc143c; #F7F7F7;*/
 	margin: 0;
 	padding: 0;
 	line-height: 1.6;
@@ -12,7 +12,8 @@ header {
 	height: 94px;
 	position: relative;
 	z-index: 4;
-    background: linear-gradient(to bottom, rgba(232, 175, 94, 1), rgba(248, 197, 56, 0.8));background-size: auto;
+    background: #dc143c;/*linear-gradient(to bottom, rgba(232, 175, 94, 1), rgba(248, 197, 56, 0.8));*/
+	background-size: auto;
 box-shadow: 0px 4px 6px rgba(0, 0, 0, 1);}
 #header-inner {
 	margin: 0 auto;
