@@ -5,7 +5,7 @@
 <title>Overview Worlds | Quest Base</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Quest Baseの世界たちを、ハイパーリンクのグラフ構造として見える化するページです。">
-<meta name="keywords" content="Quest Base, Worlds, Graph, Hyperlink, Learning, Research, Development">
+<meta name="keywords" content="Quest Base, Worlds, Graph, Hyperlink, Learning, Research, Development, Knowledge Map">
 <link rel="stylesheet" href="overview-worlds.css">
 </head>
 
@@ -23,26 +23,40 @@
 <section id="text">
   <h2>Overview Worlds</h2>
   <p>
-    This page shows the worlds of Quest Base as a graph structure.
-    Each circle is a world, and each line shows a hyperlink or conceptual connection.
+    This page shows Quest Base as a world graph. The center is <strong>Overview Worlds</strong>.
+    Around it are learning, research, imagination, development, and broad maps of knowledge, society, life, Earth, ocean, and space.
   </p>
   <p>
-    Click a node to open the corresponding page. Drag nodes to move them.
+    Click a node to open its linked page or anchor. Drag nodes to move them. Drag empty space to pan. Press Ctrl and use the mouse wheel inside the SVG to zoom in or out. Use reset to return to the designed layout.
   </p>
 </section>
 
 <section class="graph-panel" aria-label="Hyperlink graph of Quest Base worlds">
   <div class="graph-toolbar">
     <button type="button" id="resetGraph">Reset layout</button>
+    <button type="button" id="toggleLabels">Hide labels</button>
     <span id="selectedNode">Select a node</span>
   </div>
 
-  <svg id="worldGraph" viewBox="0 0 1000 650" role="img" aria-label="Quest Base hyperlink graph"></svg>
+  <div class="legend">
+    <span><i class="legend-core"></i>Core</span>
+    <span><i class="legend-learning"></i>Learning</span>
+    <span><i class="legend-research"></i>Research</span>
+    <span><i class="legend-development"></i>Development</span>
+    <span><i class="legend-life"></i>Life</span>
+    <span><i class="legend-earth"></i>Earth / Ocean</span>
+    <span><i class="legend-space"></i>Space</span>
+    <span><i class="legend-challenge"></i>Problems</span>
+  </div>
+
+  <div class="graph-scroll">
+    <svg id="worldGraph" viewBox="0 0 1600 1320" role="img" aria-label="Quest Base all-world hyperlink graph"></svg>
+  </div>
 
   <div class="graph-note">
     <p>
-      To add more pages, edit the <code>nodes</code> and <code>edges</code> arrays
-      in <code>overview-worlds.html</code>.
+      This graph is a seed map. To make it closer to “all things,” add more items to
+      <code>nodes</code> and <code>edges</code> in this file.
     </p>
   </div>
 </section>
@@ -54,10 +68,15 @@
     <ul>
       <li><a href="./index.html">Quest Base Home</a></li>
       <li><a href="./overview-worlds.html">Overview Worlds</a></li>
-      <li><a href="./know-yourself.html">Know Yourself</a></li>
       <li><a href="./learn-world.html">Learn World</a></li>
       <li><a href="./research-world.html">Research World</a></li>
+      <li><a href="./imagine-world.html">Imagine World</a></li>
       <li><a href="./develop-world.html">Develop World</a></li>
+      <li><a href="#all_academics">All Academic Disciplines</a></li>
+      <li><a href="#all_jobs">All Occupations</a></li>
+      <li><a href="#all_phenomena">All Phenomena</a></li>
+      <li><a href="#human_society">Human Society</a></li>
+      <li><a href="#space">Space / Universe</a></li>
     </ul>
   </div>
 </aside>
@@ -67,182 +86,2276 @@
 </div>
 
 <script>
-/*
-  Quest Base hyperlink graph
-
-  Add a page:
-  1. Add one object to nodes.
-  2. Add one or more relationships to edges.
-  3. Upload this file and overview-worlds.css to the GitHub Pages repository.
-*/
-
 const nodes = [
   {
-    id: "overview",
-    label: "Overview Worlds",
-    url: "./overview-worlds.html",
-    group: "core",
-    description: "A map of all worlds.",
-    x: 500,
-    y: 325
+    "id": "overview",
+    "label": "Overview Worlds",
+    "url": "./overview-worlds.html",
+    "group": "core",
+    "description": "The central map of all worlds.",
+    "x": 800,
+    "y": 560,
+    "r": 58
   },
   {
-    id: "learn",
-    label: "Learn World",
-    url: "./learn-world.html",
-    group: "learning",
-    description: "A world for learning independently.",
-    x: 270,
-    y: 325
+    "id": "learn",
+    "label": "Learn World",
+    "url": "./learn-world.html",
+    "group": "learning",
+    "description": "Learning, education, and self-directed study.",
+    "x": 520,
+    "y": 560,
+    "r": 48
   },
   {
-    id: "research",
-    label: "Research World",
-    url: "./research-world.html",
-    group: "research",
-    description: "A world for asking questions and creating knowledge.",
-    x: 500,
-    y: 110
+    "id": "research",
+    "label": "Research World",
+    "url": "./research-world.html",
+    "group": "research",
+    "description": "Research, questions, observation, and knowledge creation.",
+    "x": 800,
+    "y": 280,
+    "r": 48
   },
   {
-    id: "imagine",
-    label: "Imagine World",
-    url: "./imagine-world.html",
-    group: "creative",
-    description: "A world for imagination, vision, and new possibilities.",
-    x: 730,
-    y: 325
+    "id": "imagine",
+    "label": "Imagine World",
+    "url": "./imagine-world.html",
+    "group": "imagination",
+    "description": "Imagination, vision, creativity, and possibility.",
+    "x": 1080,
+    "y": 560,
+    "r": 48
   },
   {
-    id: "develop",
-    label: "Develop World",
-    url: "./develop-world.html",
-    group: "development",
-    description: "A world for building systems and tools.",
-    x: 500,
-    y: 540
+    "id": "develop",
+    "label": "Develop World",
+    "url": "./develop-world.html",
+    "group": "development",
+    "description": "Development, implementation, systems, and tools.",
+    "x": 800,
+    "y": 840,
+    "r": 48
   },
   {
-    id: "education",
-    label: "Education",
-    url: "./education.html",
-    group: "learning",
-    description: "A world for learning systems.",
-    x: 135,
-    y: 230
+    "id": "education",
+    "label": "Education",
+    "url": "./education.html",
+    "group": "learning",
+    "description": "Teaching, learning design, and educational systems.",
+    "x": 300,
+    "y": 480,
+    "r": 40
   },
   {
-    id: "know",
-    label: "Know Yourself",
-    url: "./know-yourself.html",
-    group: "inner",
-    description: "A world for understanding yourself.",
-    x: 135,
-    y: 420
+    "id": "know",
+    "label": "Know Yourself",
+    "url": "./know-yourself.html",
+    "group": "inner",
+    "description": "Self-understanding, reflection, and identity.",
+    "x": 300,
+    "y": 640,
+    "r": 40
   },
   {
-    id: "home",
-    label: "Quest Base",
-    url: "./index.html",
-    group: "core",
-    description: "The entrance of Quest Base.",
-    x: 70,
-    y: 120
+    "id": "home",
+    "label": "Quest Base",
+    "url": "./index.html",
+    "group": "core",
+    "description": "The entrance page of Quest Base.",
+    "x": 135,
+    "y": 480,
+    "r": 40
   },
   {
-    id: "philosophy",
-    label: "Philosophy",
-    url: "./philosophy.html",
-    group: "inner",
-    description: "A world for values, meanings, and questions.",
-    x: 735,
-    y: 105
+    "id": "philosophy",
+    "label": "Philosophy",
+    "url": "./philosophy.html",
+    "group": "inner",
+    "description": "Meaning, value, reality, knowledge, and ethics.",
+    "x": 1070,
+    "y": 220,
+    "r": 40
   },
   {
-    id: "creative",
-    label: "Creative Worlds",
-    url: "./creative-worlds.html",
-    group: "creative",
-    description: "A world for making new values.",
-    x: 270,
-    y: 590
+    "id": "creative",
+    "label": "Creative Worlds",
+    "url": "./creative-worlds.html",
+    "group": "imagination",
+    "description": "Art, design, expression, and creation.",
+    "x": 530,
+    "y": 1040,
+    "r": 40
   },
   {
-    id: "pharmacy",
-    label: "Pharmacy / Medical Science",
-    url: "./pharmacy-medical-science.html",
-    group: "research",
-    description: "A world for medicine, pharmacy, and life science.",
-    x: 420,
-    y: 620
+    "id": "pharmacy",
+    "label": "Pharmacy / Medical Science",
+    "url": "./pharmacy-medical-science.html",
+    "group": "research",
+    "description": "Medicine, pharmacy, health, disease, and life science.",
+    "x": 700,
+    "y": 1080,
+    "r": 40
   },
   {
-    id: "informatics",
-    label: "Information Science",
-    url: "./information-science.html",
-    group: "development",
-    description: "A world for computation and information.",
-    x: 580,
-    y: 620
+    "id": "informatics",
+    "label": "Information Science",
+    "url": "./information-science.html",
+    "group": "development",
+    "description": "Computation, information, AI, data, and networks.",
+    "x": 900,
+    "y": 1080,
+    "r": 40
   },
   {
-    id: "augmentation",
-    label: "Human Augmentation",
-    url: "./human-augmentation.html",
-    group: "development",
-    description: "A world for expanding human ability.",
-    x: 730,
-    y: 590
+    "id": "augmentation",
+    "label": "Human Augmentation",
+    "url": "./human-augmentation.html",
+    "group": "development",
+    "description": "Expanding human ability with technology and environments.",
+    "x": 1070,
+    "y": 1040,
+    "r": 40
+  },
+  {
+    "id": "all_academics",
+    "label": "All Academic Disciplines",
+    "url": "#all_academics",
+    "group": "knowledge",
+    "description": "All fields of study and systematic knowledge.",
+    "x": 240,
+    "y": 160,
+    "r": 44
+  },
+  {
+    "id": "all_jobs",
+    "label": "All Occupations",
+    "url": "#all_jobs",
+    "group": "society",
+    "description": "All jobs, professions, work, and roles.",
+    "x": 470,
+    "y": 120,
+    "r": 44
+  },
+  {
+    "id": "all_phenomena",
+    "label": "All Phenomena",
+    "url": "#all_phenomena",
+    "group": "nature",
+    "description": "Things that happen in nature, mind, society, and the universe.",
+    "x": 800,
+    "y": 80,
+    "r": 44
+  },
+  {
+    "id": "all_concepts",
+    "label": "All Concepts",
+    "url": "#all_concepts",
+    "group": "concept",
+    "description": "Ideas used to understand and connect worlds.",
+    "x": 1130,
+    "y": 120,
+    "r": 44
+  },
+  {
+    "id": "all_systems",
+    "label": "All Systems",
+    "url": "#all_systems",
+    "group": "system",
+    "description": "Interacting structures that produce behavior.",
+    "x": 1360,
+    "y": 160,
+    "r": 44
+  },
+  {
+    "id": "all_theories",
+    "label": "All Theories",
+    "url": "#all_theories",
+    "group": "concept",
+    "description": "Explanatory frameworks and models.",
+    "x": 1440,
+    "y": 430,
+    "r": 44
+  },
+  {
+    "id": "human_society",
+    "label": "Human Society",
+    "url": "#human_society",
+    "group": "society",
+    "description": "Families, communities, cities, cultures, economies, and nations.",
+    "x": 1440,
+    "y": 690,
+    "r": 44
+  },
+  {
+    "id": "problems",
+    "label": "Problems / Challenges",
+    "url": "#problems",
+    "group": "challenge",
+    "description": "Problems to understand, solve, reduce, or transform.",
+    "x": 1360,
+    "y": 960,
+    "r": 44
+  },
+  {
+    "id": "animal_society",
+    "label": "Animal Society",
+    "url": "#animal_society",
+    "group": "life",
+    "description": "Animal groups, cooperation, conflict, and communication.",
+    "x": 1130,
+    "y": 1120,
+    "r": 44
+  },
+  {
+    "id": "animals",
+    "label": "Animals",
+    "url": "#animals",
+    "group": "life",
+    "description": "Animal life and biodiversity.",
+    "x": 800,
+    "y": 1200,
+    "r": 44
+  },
+  {
+    "id": "plants",
+    "label": "Plants",
+    "url": "#plants",
+    "group": "life",
+    "description": "Plant life, photosynthesis, ecosystems, and agriculture.",
+    "x": 470,
+    "y": 1120,
+    "r": 44
+  },
+  {
+    "id": "microbes",
+    "label": "Microorganisms",
+    "url": "#microbes",
+    "group": "life",
+    "description": "Bacteria, archaea, fungi, protists, viruses, and microbiomes.",
+    "x": 240,
+    "y": 960,
+    "r": 44
+  },
+  {
+    "id": "land",
+    "label": "Land / Earth",
+    "url": "#land",
+    "group": "earth",
+    "description": "Soil, rocks, mountains, rivers, forests, and landscapes.",
+    "x": 160,
+    "y": 690,
+    "r": 44
+  },
+  {
+    "id": "ocean",
+    "label": "Ocean",
+    "url": "#ocean",
+    "group": "earth",
+    "description": "Seas, currents, marine life, and the water planet.",
+    "x": 160,
+    "y": 430,
+    "r": 44
+  },
+  {
+    "id": "space",
+    "label": "Space / Universe",
+    "url": "#space",
+    "group": "space",
+    "description": "Stars, planets, galaxies, and the cosmos.",
+    "x": 240,
+    "y": 310,
+    "r": 44
+  },
+  {
+    "id": "all_academics_humanities",
+    "label": "Humanities",
+    "url": "#all_academics_humanities",
+    "group": "knowledge",
+    "description": "Humanities belongs to all academics.",
+    "r": 30,
+    "x": 113,
+    "y": 266
+  },
+  {
+    "id": "all_academics_social-sciences",
+    "label": "Social Sciences",
+    "url": "#all_academics_social-sciences",
+    "group": "knowledge",
+    "description": "Social Sciences belongs to all academics.",
+    "r": 30,
+    "x": 82,
+    "y": 207
+  },
+  {
+    "id": "all_academics_natural-sciences",
+    "label": "Natural Sciences",
+    "url": "#all_academics_natural-sciences",
+    "group": "knowledge",
+    "description": "Natural Sciences belongs to all academics.",
+    "r": 30,
+    "x": 76,
+    "y": 141
+  },
+  {
+    "id": "all_academics_formal-sciences",
+    "label": "Formal Sciences",
+    "url": "#all_academics_formal-sciences",
+    "group": "knowledge",
+    "description": "Formal Sciences belongs to all academics.",
+    "r": 30,
+    "x": 97,
+    "y": 78
+  },
+  {
+    "id": "all_academics_engineering",
+    "label": "Engineering",
+    "url": "#all_academics_engineering",
+    "group": "knowledge",
+    "description": "Engineering belongs to all academics.",
+    "r": 30,
+    "x": 140,
+    "y": 29
+  },
+  {
+    "id": "all_academics_medical-sciences",
+    "label": "Medical Sciences",
+    "url": "#all_academics_medical-sciences",
+    "group": "knowledge",
+    "description": "Medical Sciences belongs to all academics.",
+    "r": 30,
+    "x": 200,
+    "y": 0
+  },
+  {
+    "id": "all_academics_arts",
+    "label": "Arts",
+    "url": "#all_academics_arts",
+    "group": "knowledge",
+    "description": "Arts belongs to all academics.",
+    "r": 30,
+    "x": 266,
+    "y": -3
+  },
+  {
+    "id": "all_academics_interdisciplinary-studies",
+    "label": "Interdisciplinary Studies",
+    "url": "#all_academics_interdisciplinary-studies",
+    "group": "knowledge",
+    "description": "Interdisciplinary Studies belongs to all academics.",
+    "r": 30,
+    "x": 328,
+    "y": 20
+  },
+  {
+    "id": "all_jobs_healthcare-jobs",
+    "label": "Healthcare Jobs",
+    "url": "#all_jobs_healthcare-jobs",
+    "group": "society",
+    "description": "Healthcare Jobs belongs to all jobs.",
+    "r": 30,
+    "x": 318,
+    "y": 184
+  },
+  {
+    "id": "all_jobs_education-jobs",
+    "label": "Education Jobs",
+    "url": "#all_jobs_education-jobs",
+    "group": "society",
+    "description": "Education Jobs belongs to all jobs.",
+    "r": 30,
+    "x": 305,
+    "y": 128
+  },
+  {
+    "id": "all_jobs_research-jobs",
+    "label": "Research Jobs",
+    "url": "#all_jobs_research-jobs",
+    "group": "society",
+    "description": "Research Jobs belongs to all jobs.",
+    "r": 30,
+    "x": 313,
+    "y": 70
+  },
+  {
+    "id": "all_jobs_engineering-jobs",
+    "label": "Engineering Jobs",
+    "url": "#all_jobs_engineering-jobs",
+    "group": "society",
+    "description": "Engineering Jobs belongs to all jobs.",
+    "r": 30,
+    "x": 340,
+    "y": 19
+  },
+  {
+    "id": "all_jobs_agriculture-jobs",
+    "label": "Agriculture Jobs",
+    "url": "#all_jobs_agriculture-jobs",
+    "group": "society",
+    "description": "Agriculture Jobs belongs to all jobs.",
+    "r": 30,
+    "x": 383,
+    "y": -20
+  },
+  {
+    "id": "all_jobs_public-service",
+    "label": "Public Service",
+    "url": "#all_jobs_public-service",
+    "group": "society",
+    "description": "Public Service belongs to all jobs.",
+    "r": 30,
+    "x": 437,
+    "y": -42
+  },
+  {
+    "id": "all_jobs_creative-jobs",
+    "label": "Creative Jobs",
+    "url": "#all_jobs_creative-jobs",
+    "group": "society",
+    "description": "Creative Jobs belongs to all jobs.",
+    "r": 30,
+    "x": 495,
+    "y": -43
+  },
+  {
+    "id": "all_jobs_business-jobs",
+    "label": "Business Jobs",
+    "url": "#all_jobs_business-jobs",
+    "group": "society",
+    "description": "Business Jobs belongs to all jobs.",
+    "r": 30,
+    "x": 550,
+    "y": -25
+  },
+  {
+    "id": "all_jobs_care-work",
+    "label": "Care Work",
+    "url": "#all_jobs_care-work",
+    "group": "society",
+    "description": "Care Work belongs to all jobs.",
+    "r": 30,
+    "x": 595,
+    "y": 12
+  },
+  {
+    "id": "all_phenomena_physical-phenomena",
+    "label": "Physical Phenomena",
+    "url": "#all_phenomena_physical-phenomena",
+    "group": "nature",
+    "description": "Physical Phenomena belongs to all phenomena.",
+    "r": 30,
+    "x": 657,
+    "y": 57
+  },
+  {
+    "id": "all_phenomena_chemical-phenomena",
+    "label": "Chemical Phenomena",
+    "url": "#all_phenomena_chemical-phenomena",
+    "group": "nature",
+    "description": "Chemical Phenomena belongs to all phenomena.",
+    "r": 30,
+    "x": 683,
+    "y": -5
+  },
+  {
+    "id": "all_phenomena_biological-phenomena",
+    "label": "Biological Phenomena",
+    "url": "#all_phenomena_biological-phenomena",
+    "group": "nature",
+    "description": "Biological Phenomena belongs to all phenomena.",
+    "r": 30,
+    "x": 734,
+    "y": -49
+  },
+  {
+    "id": "all_phenomena_psychological-phenomena",
+    "label": "Psychological Phenomena",
+    "url": "#all_phenomena_psychological-phenomena",
+    "group": "nature",
+    "description": "Psychological Phenomena belongs to all phenomena.",
+    "r": 30,
+    "x": 800,
+    "y": -65
+  },
+  {
+    "id": "all_phenomena_social-phenomena",
+    "label": "Social Phenomena",
+    "url": "#all_phenomena_social-phenomena",
+    "group": "nature",
+    "description": "Social Phenomena belongs to all phenomena.",
+    "r": 30,
+    "x": 866,
+    "y": -49
+  },
+  {
+    "id": "all_phenomena_climate-phenomena",
+    "label": "Climate Phenomena",
+    "url": "#all_phenomena_climate-phenomena",
+    "group": "nature",
+    "description": "Climate Phenomena belongs to all phenomena.",
+    "r": 30,
+    "x": 917,
+    "y": -5
+  },
+  {
+    "id": "all_phenomena_cosmic-phenomena",
+    "label": "Cosmic Phenomena",
+    "url": "#all_phenomena_cosmic-phenomena",
+    "group": "nature",
+    "description": "Cosmic Phenomena belongs to all phenomena.",
+    "r": 30,
+    "x": 943,
+    "y": 57
+  },
+  {
+    "id": "all_concepts_time",
+    "label": "Time",
+    "url": "#all_concepts_time",
+    "group": "concept",
+    "description": "Time belongs to all concepts.",
+    "r": 30,
+    "x": 1005,
+    "y": 12
+  },
+  {
+    "id": "all_concepts_space",
+    "label": "Space",
+    "url": "#all_concepts_space",
+    "group": "concept",
+    "description": "Space belongs to all concepts.",
+    "r": 30,
+    "x": 1040,
+    "y": -19
+  },
+  {
+    "id": "all_concepts_causality",
+    "label": "Causality",
+    "url": "#all_concepts_causality",
+    "group": "concept",
+    "description": "Causality belongs to all concepts.",
+    "r": 30,
+    "x": 1083,
+    "y": -38
+  },
+  {
+    "id": "all_concepts_information",
+    "label": "Information",
+    "url": "#all_concepts_information",
+    "group": "concept",
+    "description": "Information belongs to all concepts.",
+    "r": 30,
+    "x": 1129,
+    "y": -45
+  },
+  {
+    "id": "all_concepts_energy",
+    "label": "Energy",
+    "url": "#all_concepts_energy",
+    "group": "concept",
+    "description": "Energy belongs to all concepts.",
+    "r": 30,
+    "x": 1175,
+    "y": -39
+  },
+  {
+    "id": "all_concepts_matter",
+    "label": "Matter",
+    "url": "#all_concepts_matter",
+    "group": "concept",
+    "description": "Matter belongs to all concepts.",
+    "r": 30,
+    "x": 1217,
+    "y": -20
+  },
+  {
+    "id": "all_concepts_life",
+    "label": "Life",
+    "url": "#all_concepts_life",
+    "group": "concept",
+    "description": "Life belongs to all concepts.",
+    "r": 30,
+    "x": 1253,
+    "y": 10
+  },
+  {
+    "id": "all_concepts_self",
+    "label": "Self",
+    "url": "#all_concepts_self",
+    "group": "concept",
+    "description": "Self belongs to all concepts.",
+    "r": 30,
+    "x": 1279,
+    "y": 48
+  },
+  {
+    "id": "all_concepts_relation",
+    "label": "Relation",
+    "url": "#all_concepts_relation",
+    "group": "concept",
+    "description": "Relation belongs to all concepts.",
+    "r": 30,
+    "x": 1293,
+    "y": 93
+  },
+  {
+    "id": "all_concepts_value",
+    "label": "Value",
+    "url": "#all_concepts_value",
+    "group": "concept",
+    "description": "Value belongs to all concepts.",
+    "r": 30,
+    "x": 1294,
+    "y": 139
+  },
+  {
+    "id": "all_concepts_emergence",
+    "label": "Emergence",
+    "url": "#all_concepts_emergence",
+    "group": "concept",
+    "description": "Emergence belongs to all concepts.",
+    "r": 30,
+    "x": 1282,
+    "y": 184
+  },
+  {
+    "id": "all_systems_ecosystems",
+    "label": "Ecosystems",
+    "url": "#all_systems_ecosystems",
+    "group": "system",
+    "description": "Ecosystems belongs to all systems.",
+    "r": 30,
+    "x": 1272,
+    "y": 20
+  },
+  {
+    "id": "all_systems_economic-systems",
+    "label": "Economic Systems",
+    "url": "#all_systems_economic-systems",
+    "group": "system",
+    "description": "Economic Systems belongs to all systems.",
+    "r": 30,
+    "x": 1326,
+    "y": -1
+  },
+  {
+    "id": "all_systems_political-systems",
+    "label": "Political Systems",
+    "url": "#all_systems_political-systems",
+    "group": "system",
+    "description": "Political Systems belongs to all systems.",
+    "r": 30,
+    "x": 1384,
+    "y": -3
+  },
+  {
+    "id": "all_systems_legal-systems",
+    "label": "Legal Systems",
+    "url": "#all_systems_legal-systems",
+    "group": "system",
+    "description": "Legal Systems belongs to all systems.",
+    "r": 30,
+    "x": 1439,
+    "y": 15
+  },
+  {
+    "id": "all_systems_educational-systems",
+    "label": "Educational Systems",
+    "url": "#all_systems_educational-systems",
+    "group": "system",
+    "description": "Educational Systems belongs to all systems.",
+    "r": 30,
+    "x": 1484,
+    "y": 51
+  },
+  {
+    "id": "all_systems_healthcare-systems",
+    "label": "Healthcare Systems",
+    "url": "#all_systems_healthcare-systems",
+    "group": "system",
+    "description": "Healthcare Systems belongs to all systems.",
+    "r": 30,
+    "x": 1514,
+    "y": 101
+  },
+  {
+    "id": "all_systems_information-systems",
+    "label": "Information Systems",
+    "url": "#all_systems_information-systems",
+    "group": "system",
+    "description": "Information Systems belongs to all systems.",
+    "r": 30,
+    "x": 1525,
+    "y": 158
+  },
+  {
+    "id": "all_systems_transportation-systems",
+    "label": "Transportation Systems",
+    "url": "#all_systems_transportation-systems",
+    "group": "system",
+    "description": "Transportation Systems belongs to all systems.",
+    "r": 30,
+    "x": 1515,
+    "y": 215
+  },
+  {
+    "id": "all_systems_energy-systems",
+    "label": "Energy Systems",
+    "url": "#all_systems_energy-systems",
+    "group": "system",
+    "description": "Energy Systems belongs to all systems.",
+    "r": 30,
+    "x": 1487,
+    "y": 266
+  },
+  {
+    "id": "all_theories_evolution",
+    "label": "Evolution",
+    "url": "#all_theories_evolution",
+    "group": "concept",
+    "description": "Evolution belongs to all theories.",
+    "r": 30,
+    "x": 1411,
+    "y": 267
+  },
+  {
+    "id": "all_theories_relativity",
+    "label": "Relativity",
+    "url": "#all_theories_relativity",
+    "group": "concept",
+    "description": "Relativity belongs to all theories.",
+    "r": 30,
+    "x": 1469,
+    "y": 268
+  },
+  {
+    "id": "all_theories_quantum-theory",
+    "label": "Quantum Theory",
+    "url": "#all_theories_quantum-theory",
+    "group": "concept",
+    "description": "Quantum Theory belongs to all theories.",
+    "r": 30,
+    "x": 1524,
+    "y": 288
+  },
+  {
+    "id": "all_theories_systems-theory",
+    "label": "Systems Theory",
+    "url": "#all_theories_systems-theory",
+    "group": "concept",
+    "description": "Systems Theory belongs to all theories.",
+    "r": 30,
+    "x": 1568,
+    "y": 326
+  },
+  {
+    "id": "all_theories_computation-theory",
+    "label": "Computation Theory",
+    "url": "#all_theories_computation-theory",
+    "group": "concept",
+    "description": "Computation Theory belongs to all theories.",
+    "r": 30,
+    "x": 1596,
+    "y": 376
+  },
+  {
+    "id": "all_theories_learning-theory",
+    "label": "Learning Theory",
+    "url": "#all_theories_learning-theory",
+    "group": "concept",
+    "description": "Learning Theory belongs to all theories.",
+    "r": 30,
+    "x": 1605,
+    "y": 434
+  },
+  {
+    "id": "all_theories_game-theory",
+    "label": "Game Theory",
+    "url": "#all_theories_game-theory",
+    "group": "concept",
+    "description": "Game Theory belongs to all theories.",
+    "r": 30,
+    "x": 1593,
+    "y": 491
+  },
+  {
+    "id": "all_theories_ethics",
+    "label": "Ethics",
+    "url": "#all_theories_ethics",
+    "group": "concept",
+    "description": "Ethics belongs to all theories.",
+    "r": 30,
+    "x": 1563,
+    "y": 540
+  },
+  {
+    "id": "all_theories_complexity-theory",
+    "label": "Complexity Theory",
+    "url": "#all_theories_complexity-theory",
+    "group": "concept",
+    "description": "Complexity Theory belongs to all theories.",
+    "r": 30,
+    "x": 1517,
+    "y": 576
+  },
+  {
+    "id": "human_society_family",
+    "label": "Family",
+    "url": "#human_society_family",
+    "group": "society",
+    "description": "Family belongs to human society.",
+    "r": 30,
+    "x": 1476,
+    "y": 529
+  },
+  {
+    "id": "human_society_community",
+    "label": "Community",
+    "url": "#human_society_community",
+    "group": "society",
+    "description": "Community belongs to human society.",
+    "r": 30,
+    "x": 1524,
+    "y": 548
+  },
+  {
+    "id": "human_society_city",
+    "label": "City",
+    "url": "#human_society_city",
+    "group": "society",
+    "description": "City belongs to human society.",
+    "r": 30,
+    "x": 1564,
+    "y": 581
+  },
+  {
+    "id": "human_society_nation",
+    "label": "Nation",
+    "url": "#human_society_nation",
+    "group": "society",
+    "description": "Nation belongs to human society.",
+    "r": 30,
+    "x": 1591,
+    "y": 624
+  },
+  {
+    "id": "human_society_economy",
+    "label": "Economy",
+    "url": "#human_society_economy",
+    "group": "society",
+    "description": "Economy belongs to human society.",
+    "r": 30,
+    "x": 1604,
+    "y": 674
+  },
+  {
+    "id": "human_society_culture",
+    "label": "Culture",
+    "url": "#human_society_culture",
+    "group": "society",
+    "description": "Culture belongs to human society.",
+    "r": 30,
+    "x": 1601,
+    "y": 726
+  },
+  {
+    "id": "human_society_language",
+    "label": "Language",
+    "url": "#human_society_language",
+    "group": "society",
+    "description": "Language belongs to human society.",
+    "r": 30,
+    "x": 1582,
+    "y": 774
+  },
+  {
+    "id": "human_society_law",
+    "label": "Law",
+    "url": "#human_society_law",
+    "group": "society",
+    "description": "Law belongs to human society.",
+    "r": 30,
+    "x": 1549,
+    "y": 814
+  },
+  {
+    "id": "human_society_media",
+    "label": "Media",
+    "url": "#human_society_media",
+    "group": "society",
+    "description": "Media belongs to human society.",
+    "r": 30,
+    "x": 1506,
+    "y": 841
+  },
+  {
+    "id": "human_society_history",
+    "label": "History",
+    "url": "#human_society_history",
+    "group": "society",
+    "description": "History belongs to human society.",
+    "r": 30,
+    "x": 1456,
+    "y": 854
+  },
+  {
+    "id": "problems_poverty",
+    "label": "Poverty",
+    "url": "#problems_poverty",
+    "group": "challenge",
+    "description": "Poverty belongs to problems.",
+    "r": 30,
+    "x": 1462,
+    "y": 830
+  },
+  {
+    "id": "problems_inequality",
+    "label": "Inequality",
+    "url": "#problems_inequality",
+    "group": "challenge",
+    "description": "Inequality belongs to problems.",
+    "r": 30,
+    "x": 1497,
+    "y": 868
+  },
+  {
+    "id": "problems_war-and-peace",
+    "label": "War and Peace",
+    "url": "#problems_war-and-peace",
+    "group": "challenge",
+    "description": "War and Peace belongs to problems.",
+    "r": 30,
+    "x": 1519,
+    "y": 914
+  },
+  {
+    "id": "problems_climate-change",
+    "label": "Climate Change",
+    "url": "#problems_climate-change",
+    "group": "challenge",
+    "description": "Climate Change belongs to problems.",
+    "r": 30,
+    "x": 1525,
+    "y": 966
+  },
+  {
+    "id": "problems_public-health",
+    "label": "Public Health",
+    "url": "#problems_public-health",
+    "group": "challenge",
+    "description": "Public Health belongs to problems.",
+    "r": 30,
+    "x": 1515,
+    "y": 1016
+  },
+  {
+    "id": "problems_mental-health",
+    "label": "Mental Health",
+    "url": "#problems_mental-health",
+    "group": "challenge",
+    "description": "Mental Health belongs to problems.",
+    "r": 30,
+    "x": 1490,
+    "y": 1062
+  },
+  {
+    "id": "problems_food-and-water",
+    "label": "Food and Water",
+    "url": "#problems_food-and-water",
+    "group": "challenge",
+    "description": "Food and Water belongs to problems.",
+    "r": 30,
+    "x": 1452,
+    "y": 1097
+  },
+  {
+    "id": "problems_aging-society",
+    "label": "Aging Society",
+    "url": "#problems_aging-society",
+    "group": "challenge",
+    "description": "Aging Society belongs to problems.",
+    "r": 30,
+    "x": 1406,
+    "y": 1119
+  },
+  {
+    "id": "problems_ai-safety",
+    "label": "AI Safety",
+    "url": "#problems_ai-safety",
+    "group": "challenge",
+    "description": "AI Safety belongs to problems.",
+    "r": 30,
+    "x": 1354,
+    "y": 1125
+  },
+  {
+    "id": "problems_biodiversity-loss",
+    "label": "Biodiversity Loss",
+    "url": "#problems_biodiversity-loss",
+    "group": "challenge",
+    "description": "Biodiversity Loss belongs to problems.",
+    "r": 30,
+    "x": 1304,
+    "y": 1115
+  },
+  {
+    "id": "animal_society_cooperation",
+    "label": "Cooperation",
+    "url": "#animal_society_cooperation",
+    "group": "life",
+    "description": "Cooperation belongs to animal society.",
+    "r": 30,
+    "x": 1260,
+    "y": 1056
+  },
+  {
+    "id": "animal_society_communication",
+    "label": "Communication",
+    "url": "#animal_society_communication",
+    "group": "life",
+    "description": "Communication belongs to animal society.",
+    "r": 30,
+    "x": 1275,
+    "y": 1122
+  },
+  {
+    "id": "animal_society_territory",
+    "label": "Territory",
+    "url": "#animal_society_territory",
+    "group": "life",
+    "description": "Territory belongs to animal society.",
+    "r": 30,
+    "x": 1258,
+    "y": 1188
+  },
+  {
+    "id": "animal_society_hierarchy",
+    "label": "Hierarchy",
+    "url": "#animal_society_hierarchy",
+    "group": "life",
+    "description": "Hierarchy belongs to animal society.",
+    "r": 30,
+    "x": 1213,
+    "y": 1239
+  },
+  {
+    "id": "animal_society_symbiosis",
+    "label": "Symbiosis",
+    "url": "#animal_society_symbiosis",
+    "group": "life",
+    "description": "Symbiosis belongs to animal society.",
+    "r": 30,
+    "x": 1150,
+    "y": 1264
+  },
+  {
+    "id": "animal_society_migration",
+    "label": "Migration",
+    "url": "#animal_society_migration",
+    "group": "life",
+    "description": "Migration belongs to animal society.",
+    "r": 30,
+    "x": 1083,
+    "y": 1257
+  },
+  {
+    "id": "animal_society_reproduction",
+    "label": "Reproduction",
+    "url": "#animal_society_reproduction",
+    "group": "life",
+    "description": "Reproduction belongs to animal society.",
+    "r": 30,
+    "x": 1026,
+    "y": 1221
+  },
+  {
+    "id": "animals_mammals",
+    "label": "Mammals",
+    "url": "#animals_mammals",
+    "group": "life",
+    "description": "Mammals belongs to animals.",
+    "r": 30,
+    "x": 963,
+    "y": 1226
+  },
+  {
+    "id": "animals_birds",
+    "label": "Birds",
+    "url": "#animals_birds",
+    "group": "life",
+    "description": "Birds belongs to animals.",
+    "r": 30,
+    "x": 940,
+    "y": 1288
+  },
+  {
+    "id": "animals_reptiles",
+    "label": "Reptiles",
+    "url": "#animals_reptiles",
+    "group": "life",
+    "description": "Reptiles belongs to animals.",
+    "r": 30,
+    "x": 894,
+    "y": 1336
+  },
+  {
+    "id": "animals_amphibians",
+    "label": "Amphibians",
+    "url": "#animals_amphibians",
+    "group": "life",
+    "description": "Amphibians belongs to animals.",
+    "r": 30,
+    "x": 833,
+    "y": 1362
+  },
+  {
+    "id": "animals_fish",
+    "label": "Fish",
+    "url": "#animals_fish",
+    "group": "life",
+    "description": "Fish belongs to animals.",
+    "r": 30,
+    "x": 767,
+    "y": 1362
+  },
+  {
+    "id": "animals_insects",
+    "label": "Insects",
+    "url": "#animals_insects",
+    "group": "life",
+    "description": "Insects belongs to animals.",
+    "r": 30,
+    "x": 706,
+    "y": 1336
+  },
+  {
+    "id": "animals_mollusks",
+    "label": "Mollusks",
+    "url": "#animals_mollusks",
+    "group": "life",
+    "description": "Mollusks belongs to animals.",
+    "r": 30,
+    "x": 660,
+    "y": 1288
+  },
+  {
+    "id": "animals_crustaceans",
+    "label": "Crustaceans",
+    "url": "#animals_crustaceans",
+    "group": "life",
+    "description": "Crustaceans belongs to animals.",
+    "r": 30,
+    "x": 637,
+    "y": 1226
+  },
+  {
+    "id": "plants_trees",
+    "label": "Trees",
+    "url": "#plants_trees",
+    "group": "life",
+    "description": "Trees belongs to plants.",
+    "r": 30,
+    "x": 589,
+    "y": 1235
+  },
+  {
+    "id": "plants_grasses",
+    "label": "Grasses",
+    "url": "#plants_grasses",
+    "group": "life",
+    "description": "Grasses belongs to plants.",
+    "r": 30,
+    "x": 534,
+    "y": 1272
+  },
+  {
+    "id": "plants_flowers",
+    "label": "Flowers",
+    "url": "#plants_flowers",
+    "group": "life",
+    "description": "Flowers belongs to plants.",
+    "r": 30,
+    "x": 469,
+    "y": 1285
+  },
+  {
+    "id": "plants_crops",
+    "label": "Crops",
+    "url": "#plants_crops",
+    "group": "life",
+    "description": "Crops belongs to plants.",
+    "r": 30,
+    "x": 404,
+    "y": 1271
+  },
+  {
+    "id": "plants_mosses",
+    "label": "Mosses",
+    "url": "#plants_mosses",
+    "group": "life",
+    "description": "Mosses belongs to plants.",
+    "r": 30,
+    "x": 350,
+    "y": 1233
+  },
+  {
+    "id": "plants_ferns",
+    "label": "Ferns",
+    "url": "#plants_ferns",
+    "group": "life",
+    "description": "Ferns belongs to plants.",
+    "r": 30,
+    "x": 315,
+    "y": 1177
+  },
+  {
+    "id": "plants_algae",
+    "label": "Algae",
+    "url": "#plants_algae",
+    "group": "life",
+    "description": "Algae belongs to plants.",
+    "r": 30,
+    "x": 305,
+    "y": 1112
+  },
+  {
+    "id": "plants_photosynthesis",
+    "label": "Photosynthesis",
+    "url": "#plants_photosynthesis",
+    "group": "life",
+    "description": "Photosynthesis belongs to plants.",
+    "r": 30,
+    "x": 322,
+    "y": 1047
+  },
+  {
+    "id": "microbes_bacteria",
+    "label": "Bacteria",
+    "url": "#microbes_bacteria",
+    "group": "life",
+    "description": "Bacteria belongs to microbes.",
+    "r": 30,
+    "x": 290,
+    "y": 1096
+  },
+  {
+    "id": "microbes_archaea",
+    "label": "Archaea",
+    "url": "#microbes_archaea",
+    "group": "life",
+    "description": "Archaea belongs to microbes.",
+    "r": 30,
+    "x": 222,
+    "y": 1104
+  },
+  {
+    "id": "microbes_fungi",
+    "label": "Fungi",
+    "url": "#microbes_fungi",
+    "group": "life",
+    "description": "Fungi belongs to microbes.",
+    "r": 30,
+    "x": 159,
+    "y": 1080
+  },
+  {
+    "id": "microbes_protists",
+    "label": "Protists",
+    "url": "#microbes_protists",
+    "group": "life",
+    "description": "Protists belongs to microbes.",
+    "r": 30,
+    "x": 113,
+    "y": 1030
+  },
+  {
+    "id": "microbes_viruses",
+    "label": "Viruses",
+    "url": "#microbes_viruses",
+    "group": "life",
+    "description": "Viruses belongs to microbes.",
+    "r": 30,
+    "x": 95,
+    "y": 965
+  },
+  {
+    "id": "microbes_microbiome",
+    "label": "Microbiome",
+    "url": "#microbes_microbiome",
+    "group": "life",
+    "description": "Microbiome belongs to microbes.",
+    "r": 30,
+    "x": 109,
+    "y": 899
+  },
+  {
+    "id": "microbes_fermentation",
+    "label": "Fermentation",
+    "url": "#microbes_fermentation",
+    "group": "life",
+    "description": "Fermentation belongs to microbes.",
+    "r": 30,
+    "x": 151,
+    "y": 846
+  },
+  {
+    "id": "land_geology",
+    "label": "Geology",
+    "url": "#land_geology",
+    "group": "earth",
+    "description": "Geology belongs to land.",
+    "r": 30,
+    "x": 144,
+    "y": 854
+  },
+  {
+    "id": "land_soil",
+    "label": "Soil",
+    "url": "#land_soil",
+    "group": "earth",
+    "description": "Soil belongs to land.",
+    "r": 30,
+    "x": 81,
+    "y": 835
+  },
+  {
+    "id": "land_mountains",
+    "label": "Mountains",
+    "url": "#land_mountains",
+    "group": "earth",
+    "description": "Mountains belongs to land.",
+    "r": 30,
+    "x": 30,
+    "y": 792
+  },
+  {
+    "id": "land_rivers",
+    "label": "Rivers",
+    "url": "#land_rivers",
+    "group": "earth",
+    "description": "Rivers belongs to land.",
+    "r": 30,
+    "x": 1,
+    "y": 733
+  },
+  {
+    "id": "land_forests",
+    "label": "Forests",
+    "url": "#land_forests",
+    "group": "earth",
+    "description": "Forests belongs to land.",
+    "r": 30,
+    "x": -3,
+    "y": 667
+  },
+  {
+    "id": "land_deserts",
+    "label": "Deserts",
+    "url": "#land_deserts",
+    "group": "earth",
+    "description": "Deserts belongs to land.",
+    "r": 30,
+    "x": 19,
+    "y": 605
+  },
+  {
+    "id": "land_volcanoes",
+    "label": "Volcanoes",
+    "url": "#land_volcanoes",
+    "group": "earth",
+    "description": "Volcanoes belongs to land.",
+    "r": 30,
+    "x": 64,
+    "y": 556
+  },
+  {
+    "id": "land_minerals",
+    "label": "Minerals",
+    "url": "#land_minerals",
+    "group": "earth",
+    "description": "Minerals belongs to land.",
+    "r": 30,
+    "x": 124,
+    "y": 529
+  },
+  {
+    "id": "ocean_marine-ecosystems",
+    "label": "Marine Ecosystems",
+    "url": "#ocean_marine-ecosystems",
+    "group": "earth",
+    "description": "Marine Ecosystems belongs to ocean.",
+    "r": 30,
+    "x": 92,
+    "y": 558
+  },
+  {
+    "id": "ocean_currents",
+    "label": "Currents",
+    "url": "#ocean_currents",
+    "group": "earth",
+    "description": "Currents belongs to ocean.",
+    "r": 30,
+    "x": 41,
+    "y": 513
+  },
+  {
+    "id": "ocean_waves",
+    "label": "Waves",
+    "url": "#ocean_waves",
+    "group": "earth",
+    "description": "Waves belongs to ocean.",
+    "r": 30,
+    "x": 16,
+    "y": 450
+  },
+  {
+    "id": "ocean_deep-sea",
+    "label": "Deep Sea",
+    "url": "#ocean_deep-sea",
+    "group": "earth",
+    "description": "Deep Sea belongs to ocean.",
+    "r": 30,
+    "x": 23,
+    "y": 383
+  },
+  {
+    "id": "ocean_coral-reefs",
+    "label": "Coral Reefs",
+    "url": "#ocean_coral-reefs",
+    "group": "earth",
+    "description": "Coral Reefs belongs to ocean.",
+    "r": 30,
+    "x": 59,
+    "y": 326
+  },
+  {
+    "id": "ocean_fisheries",
+    "label": "Fisheries",
+    "url": "#ocean_fisheries",
+    "group": "earth",
+    "description": "Fisheries belongs to ocean.",
+    "r": 30,
+    "x": 118,
+    "y": 291
+  },
+  {
+    "id": "ocean_water-cycle",
+    "label": "Water Cycle",
+    "url": "#ocean_water-cycle",
+    "group": "earth",
+    "description": "Water Cycle belongs to ocean.",
+    "r": 30,
+    "x": 185,
+    "y": 287
+  },
+  {
+    "id": "space_planets",
+    "label": "Planets",
+    "url": "#space_planets",
+    "group": "space",
+    "description": "Planets belongs to space.",
+    "r": 30,
+    "x": 146,
+    "y": 421
+  },
+  {
+    "id": "space_stars",
+    "label": "Stars",
+    "url": "#space_stars",
+    "group": "space",
+    "description": "Stars belongs to space.",
+    "r": 30,
+    "x": 106,
+    "y": 366
+  },
+  {
+    "id": "space_galaxies",
+    "label": "Galaxies",
+    "url": "#space_galaxies",
+    "group": "space",
+    "description": "Galaxies belongs to space.",
+    "r": 30,
+    "x": 95,
+    "y": 299
+  },
+  {
+    "id": "space_black-holes",
+    "label": "Black Holes",
+    "url": "#space_black-holes",
+    "group": "space",
+    "description": "Black Holes belongs to space.",
+    "r": 30,
+    "x": 116,
+    "y": 235
+  },
+  {
+    "id": "space_cosmology",
+    "label": "Cosmology",
+    "url": "#space_cosmology",
+    "group": "space",
+    "description": "Cosmology belongs to space.",
+    "r": 30,
+    "x": 164,
+    "y": 187
+  },
+  {
+    "id": "space_astrobiology",
+    "label": "Astrobiology",
+    "url": "#space_astrobiology",
+    "group": "space",
+    "description": "Astrobiology belongs to space.",
+    "r": 30,
+    "x": 228,
+    "y": 165
+  },
+  {
+    "id": "space_space-exploration",
+    "label": "Space Exploration",
+    "url": "#space_space-exploration",
+    "group": "space",
+    "description": "Space Exploration belongs to space.",
+    "r": 30,
+    "x": 295,
+    "y": 176
   }
 ];
 
 const edges = [
-  { source: "overview", target: "learn" },
-  { source: "overview", target: "research" },
-  { source: "overview", target: "imagine" },
-  { source: "overview", target: "develop" },
-
-  { source: "learn", target: "education" },
-  { source: "learn", target: "know" },
-
-  { source: "education", target: "home" },
-
-  { source: "research", target: "philosophy" },
-
-  { source: "develop", target: "creative" },
-  { source: "develop", target: "pharmacy" },
-  { source: "develop", target: "informatics" },
-  { source: "develop", target: "augmentation" }
+  {
+    "source": "overview",
+    "target": "learn"
+  },
+  {
+    "source": "overview",
+    "target": "research"
+  },
+  {
+    "source": "overview",
+    "target": "imagine"
+  },
+  {
+    "source": "overview",
+    "target": "develop"
+  },
+  {
+    "source": "learn",
+    "target": "education"
+  },
+  {
+    "source": "learn",
+    "target": "know"
+  },
+  {
+    "source": "education",
+    "target": "home"
+  },
+  {
+    "source": "research",
+    "target": "philosophy"
+  },
+  {
+    "source": "develop",
+    "target": "creative"
+  },
+  {
+    "source": "develop",
+    "target": "pharmacy"
+  },
+  {
+    "source": "develop",
+    "target": "informatics"
+  },
+  {
+    "source": "develop",
+    "target": "augmentation"
+  },
+  {
+    "source": "overview",
+    "target": "all_academics"
+  },
+  {
+    "source": "overview",
+    "target": "all_jobs"
+  },
+  {
+    "source": "overview",
+    "target": "all_phenomena"
+  },
+  {
+    "source": "overview",
+    "target": "all_concepts"
+  },
+  {
+    "source": "overview",
+    "target": "all_systems"
+  },
+  {
+    "source": "overview",
+    "target": "all_theories"
+  },
+  {
+    "source": "overview",
+    "target": "human_society"
+  },
+  {
+    "source": "overview",
+    "target": "problems"
+  },
+  {
+    "source": "overview",
+    "target": "animal_society"
+  },
+  {
+    "source": "overview",
+    "target": "animals"
+  },
+  {
+    "source": "overview",
+    "target": "plants"
+  },
+  {
+    "source": "overview",
+    "target": "microbes"
+  },
+  {
+    "source": "overview",
+    "target": "land"
+  },
+  {
+    "source": "overview",
+    "target": "ocean"
+  },
+  {
+    "source": "overview",
+    "target": "space"
+  },
+  {
+    "source": "all_academics",
+    "target": "learn"
+  },
+  {
+    "source": "all_academics",
+    "target": "research"
+  },
+  {
+    "source": "all_jobs",
+    "target": "develop"
+  },
+  {
+    "source": "all_phenomena",
+    "target": "research"
+  },
+  {
+    "source": "all_concepts",
+    "target": "philosophy"
+  },
+  {
+    "source": "all_systems",
+    "target": "develop"
+  },
+  {
+    "source": "all_theories",
+    "target": "research"
+  },
+  {
+    "source": "human_society",
+    "target": "know"
+  },
+  {
+    "source": "problems",
+    "target": "develop"
+  },
+  {
+    "source": "animals",
+    "target": "pharmacy"
+  },
+  {
+    "source": "microbes",
+    "target": "pharmacy"
+  },
+  {
+    "source": "plants",
+    "target": "creative"
+  },
+  {
+    "source": "space",
+    "target": "imagine"
+  },
+  {
+    "source": "ocean",
+    "target": "research"
+  },
+  {
+    "source": "land",
+    "target": "research"
+  },
+  {
+    "source": "all_academics",
+    "target": "all_academics_humanities"
+  },
+  {
+    "source": "all_academics",
+    "target": "all_academics_social-sciences"
+  },
+  {
+    "source": "all_academics",
+    "target": "all_academics_natural-sciences"
+  },
+  {
+    "source": "all_academics",
+    "target": "all_academics_formal-sciences"
+  },
+  {
+    "source": "all_academics",
+    "target": "all_academics_engineering"
+  },
+  {
+    "source": "all_academics",
+    "target": "all_academics_medical-sciences"
+  },
+  {
+    "source": "all_academics",
+    "target": "all_academics_arts"
+  },
+  {
+    "source": "all_academics",
+    "target": "all_academics_interdisciplinary-studies"
+  },
+  {
+    "source": "all_jobs",
+    "target": "all_jobs_healthcare-jobs"
+  },
+  {
+    "source": "all_jobs",
+    "target": "all_jobs_education-jobs"
+  },
+  {
+    "source": "all_jobs",
+    "target": "all_jobs_research-jobs"
+  },
+  {
+    "source": "all_jobs",
+    "target": "all_jobs_engineering-jobs"
+  },
+  {
+    "source": "all_jobs",
+    "target": "all_jobs_agriculture-jobs"
+  },
+  {
+    "source": "all_jobs",
+    "target": "all_jobs_public-service"
+  },
+  {
+    "source": "all_jobs",
+    "target": "all_jobs_creative-jobs"
+  },
+  {
+    "source": "all_jobs",
+    "target": "all_jobs_business-jobs"
+  },
+  {
+    "source": "all_jobs",
+    "target": "all_jobs_care-work"
+  },
+  {
+    "source": "all_phenomena",
+    "target": "all_phenomena_physical-phenomena"
+  },
+  {
+    "source": "all_phenomena",
+    "target": "all_phenomena_chemical-phenomena"
+  },
+  {
+    "source": "all_phenomena",
+    "target": "all_phenomena_biological-phenomena"
+  },
+  {
+    "source": "all_phenomena",
+    "target": "all_phenomena_psychological-phenomena"
+  },
+  {
+    "source": "all_phenomena",
+    "target": "all_phenomena_social-phenomena"
+  },
+  {
+    "source": "all_phenomena",
+    "target": "all_phenomena_climate-phenomena"
+  },
+  {
+    "source": "all_phenomena",
+    "target": "all_phenomena_cosmic-phenomena"
+  },
+  {
+    "source": "all_concepts",
+    "target": "all_concepts_time"
+  },
+  {
+    "source": "all_concepts",
+    "target": "all_concepts_space"
+  },
+  {
+    "source": "all_concepts",
+    "target": "all_concepts_causality"
+  },
+  {
+    "source": "all_concepts",
+    "target": "all_concepts_information"
+  },
+  {
+    "source": "all_concepts",
+    "target": "all_concepts_energy"
+  },
+  {
+    "source": "all_concepts",
+    "target": "all_concepts_matter"
+  },
+  {
+    "source": "all_concepts",
+    "target": "all_concepts_life"
+  },
+  {
+    "source": "all_concepts",
+    "target": "all_concepts_self"
+  },
+  {
+    "source": "all_concepts",
+    "target": "all_concepts_relation"
+  },
+  {
+    "source": "all_concepts",
+    "target": "all_concepts_value"
+  },
+  {
+    "source": "all_concepts",
+    "target": "all_concepts_emergence"
+  },
+  {
+    "source": "all_systems",
+    "target": "all_systems_ecosystems"
+  },
+  {
+    "source": "all_systems",
+    "target": "all_systems_economic-systems"
+  },
+  {
+    "source": "all_systems",
+    "target": "all_systems_political-systems"
+  },
+  {
+    "source": "all_systems",
+    "target": "all_systems_legal-systems"
+  },
+  {
+    "source": "all_systems",
+    "target": "all_systems_educational-systems"
+  },
+  {
+    "source": "all_systems",
+    "target": "all_systems_healthcare-systems"
+  },
+  {
+    "source": "all_systems",
+    "target": "all_systems_information-systems"
+  },
+  {
+    "source": "all_systems",
+    "target": "all_systems_transportation-systems"
+  },
+  {
+    "source": "all_systems",
+    "target": "all_systems_energy-systems"
+  },
+  {
+    "source": "all_theories",
+    "target": "all_theories_evolution"
+  },
+  {
+    "source": "all_theories",
+    "target": "all_theories_relativity"
+  },
+  {
+    "source": "all_theories",
+    "target": "all_theories_quantum-theory"
+  },
+  {
+    "source": "all_theories",
+    "target": "all_theories_systems-theory"
+  },
+  {
+    "source": "all_theories",
+    "target": "all_theories_computation-theory"
+  },
+  {
+    "source": "all_theories",
+    "target": "all_theories_learning-theory"
+  },
+  {
+    "source": "all_theories",
+    "target": "all_theories_game-theory"
+  },
+  {
+    "source": "all_theories",
+    "target": "all_theories_ethics"
+  },
+  {
+    "source": "all_theories",
+    "target": "all_theories_complexity-theory"
+  },
+  {
+    "source": "human_society",
+    "target": "human_society_family"
+  },
+  {
+    "source": "human_society",
+    "target": "human_society_community"
+  },
+  {
+    "source": "human_society",
+    "target": "human_society_city"
+  },
+  {
+    "source": "human_society",
+    "target": "human_society_nation"
+  },
+  {
+    "source": "human_society",
+    "target": "human_society_economy"
+  },
+  {
+    "source": "human_society",
+    "target": "human_society_culture"
+  },
+  {
+    "source": "human_society",
+    "target": "human_society_language"
+  },
+  {
+    "source": "human_society",
+    "target": "human_society_law"
+  },
+  {
+    "source": "human_society",
+    "target": "human_society_media"
+  },
+  {
+    "source": "human_society",
+    "target": "human_society_history"
+  },
+  {
+    "source": "problems",
+    "target": "problems_poverty"
+  },
+  {
+    "source": "problems",
+    "target": "problems_inequality"
+  },
+  {
+    "source": "problems",
+    "target": "problems_war-and-peace"
+  },
+  {
+    "source": "problems",
+    "target": "problems_climate-change"
+  },
+  {
+    "source": "problems",
+    "target": "problems_public-health"
+  },
+  {
+    "source": "problems",
+    "target": "problems_mental-health"
+  },
+  {
+    "source": "problems",
+    "target": "problems_food-and-water"
+  },
+  {
+    "source": "problems",
+    "target": "problems_aging-society"
+  },
+  {
+    "source": "problems",
+    "target": "problems_ai-safety"
+  },
+  {
+    "source": "problems",
+    "target": "problems_biodiversity-loss"
+  },
+  {
+    "source": "animal_society",
+    "target": "animal_society_cooperation"
+  },
+  {
+    "source": "animal_society",
+    "target": "animal_society_communication"
+  },
+  {
+    "source": "animal_society",
+    "target": "animal_society_territory"
+  },
+  {
+    "source": "animal_society",
+    "target": "animal_society_hierarchy"
+  },
+  {
+    "source": "animal_society",
+    "target": "animal_society_symbiosis"
+  },
+  {
+    "source": "animal_society",
+    "target": "animal_society_migration"
+  },
+  {
+    "source": "animal_society",
+    "target": "animal_society_reproduction"
+  },
+  {
+    "source": "animals",
+    "target": "animals_mammals"
+  },
+  {
+    "source": "animals",
+    "target": "animals_birds"
+  },
+  {
+    "source": "animals",
+    "target": "animals_reptiles"
+  },
+  {
+    "source": "animals",
+    "target": "animals_amphibians"
+  },
+  {
+    "source": "animals",
+    "target": "animals_fish"
+  },
+  {
+    "source": "animals",
+    "target": "animals_insects"
+  },
+  {
+    "source": "animals",
+    "target": "animals_mollusks"
+  },
+  {
+    "source": "animals",
+    "target": "animals_crustaceans"
+  },
+  {
+    "source": "plants",
+    "target": "plants_trees"
+  },
+  {
+    "source": "plants",
+    "target": "plants_grasses"
+  },
+  {
+    "source": "plants",
+    "target": "plants_flowers"
+  },
+  {
+    "source": "plants",
+    "target": "plants_crops"
+  },
+  {
+    "source": "plants",
+    "target": "plants_mosses"
+  },
+  {
+    "source": "plants",
+    "target": "plants_ferns"
+  },
+  {
+    "source": "plants",
+    "target": "plants_algae"
+  },
+  {
+    "source": "plants",
+    "target": "plants_photosynthesis"
+  },
+  {
+    "source": "microbes",
+    "target": "microbes_bacteria"
+  },
+  {
+    "source": "microbes",
+    "target": "microbes_archaea"
+  },
+  {
+    "source": "microbes",
+    "target": "microbes_fungi"
+  },
+  {
+    "source": "microbes",
+    "target": "microbes_protists"
+  },
+  {
+    "source": "microbes",
+    "target": "microbes_viruses"
+  },
+  {
+    "source": "microbes",
+    "target": "microbes_microbiome"
+  },
+  {
+    "source": "microbes",
+    "target": "microbes_fermentation"
+  },
+  {
+    "source": "land",
+    "target": "land_geology"
+  },
+  {
+    "source": "land",
+    "target": "land_soil"
+  },
+  {
+    "source": "land",
+    "target": "land_mountains"
+  },
+  {
+    "source": "land",
+    "target": "land_rivers"
+  },
+  {
+    "source": "land",
+    "target": "land_forests"
+  },
+  {
+    "source": "land",
+    "target": "land_deserts"
+  },
+  {
+    "source": "land",
+    "target": "land_volcanoes"
+  },
+  {
+    "source": "land",
+    "target": "land_minerals"
+  },
+  {
+    "source": "ocean",
+    "target": "ocean_marine-ecosystems"
+  },
+  {
+    "source": "ocean",
+    "target": "ocean_currents"
+  },
+  {
+    "source": "ocean",
+    "target": "ocean_waves"
+  },
+  {
+    "source": "ocean",
+    "target": "ocean_deep-sea"
+  },
+  {
+    "source": "ocean",
+    "target": "ocean_coral-reefs"
+  },
+  {
+    "source": "ocean",
+    "target": "ocean_fisheries"
+  },
+  {
+    "source": "ocean",
+    "target": "ocean_water-cycle"
+  },
+  {
+    "source": "space",
+    "target": "space_planets"
+  },
+  {
+    "source": "space",
+    "target": "space_stars"
+  },
+  {
+    "source": "space",
+    "target": "space_galaxies"
+  },
+  {
+    "source": "space",
+    "target": "space_black-holes"
+  },
+  {
+    "source": "space",
+    "target": "space_cosmology"
+  },
+  {
+    "source": "space",
+    "target": "space_astrobiology"
+  },
+  {
+    "source": "space",
+    "target": "space_space-exploration"
+  },
+  {
+    "source": "all_concepts_information",
+    "target": "informatics"
+  },
+  {
+    "source": "all_concepts_life",
+    "target": "pharmacy"
+  },
+  {
+    "source": "all_systems_information-systems",
+    "target": "informatics"
+  },
+  {
+    "source": "all_systems_healthcare-systems",
+    "target": "pharmacy"
+  },
+  {
+    "source": "all_theories_computation-theory",
+    "target": "informatics"
+  },
+  {
+    "source": "all_theories_learning-theory",
+    "target": "education"
+  },
+  {
+    "source": "problems_mental-health",
+    "target": "know"
+  },
+  {
+    "source": "problems_ai-safety",
+    "target": "informatics"
+  },
+  {
+    "source": "plants_photosynthesis",
+    "target": "all_phenomena_biological-phenomena"
+  },
+  {
+    "source": "microbes_microbiome",
+    "target": "animals"
+  },
+  {
+    "source": "ocean_marine-ecosystems",
+    "target": "animals"
+  },
+  {
+    "source": "land_forests",
+    "target": "plants"
+  },
+  {
+    "source": "space_astrobiology",
+    "target": "microbes"
+  }
 ];
 
 const svg = document.getElementById("worldGraph");
 const selectedNode = document.getElementById("selectedNode");
 const resetButton = document.getElementById("resetGraph");
-const width = 1000;
-const height = 650;
-const centerX = width / 2;
-const centerY = height / 2;
+const toggleLabelsButton = document.getElementById("toggleLabels");
 
-const groupClass = {
-  core: "node-core",
-  inner: "node-inner",
-  learning: "node-learning",
-  research: "node-research",
-  development: "node-development",
-  creative: "node-creative"
-};
-
+let labelsVisible = true;
+let panX = 0;
+let panY = 0;
+let zoomScale = 1;
+const minZoomScale = 0.25;
+const maxZoomScale = 4;
+let panning = null;
+let viewportGroup = null;
 const nodeById = new Map(nodes.map(node => [node.id, node]));
-
-function setInitialPositions() {
-  nodes.forEach(node => {
-    node.initialX = node.x;
-    node.initialY = node.y;
-    node.vx = 0;
-    node.vy = 0;
-    node.fixed = false;
-  });
-}
 
 function createSvgElement(name, attrs = {}) {
   const element = document.createElementNS("http://www.w3.org/2000/svg", name);
@@ -253,13 +2366,34 @@ function createSvgElement(name, attrs = {}) {
 }
 
 function clearSvg() {
-  while (svg.firstChild) {
-    svg.removeChild(svg.firstChild);
-  }
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+}
+
+function setInitialPositions() {
+  nodes.forEach(node => {
+    node.initialX = node.x;
+    node.initialY = node.y;
+    node.vx = 0;
+    node.vy = 0;
+  });
+}
+
+function resetPositions() {
+  nodes.forEach(node => {
+    node.x = node.initialX;
+    node.y = node.initialY;
+    node.vx = 0;
+    node.vy = 0;
+  });
 }
 
 function render() {
   clearSvg();
+
+  viewportGroup = createSvgElement("g", {
+    class: "viewport-group",
+    transform: `translate(${panX}, ${panY}) scale(${zoomScale})`
+  });
 
   const edgeLayer = createSvgElement("g", { class: "edge-layer" });
   const nodeLayer = createSvgElement("g", { class: "node-layer" });
@@ -267,6 +2401,7 @@ function render() {
   edges.forEach(edge => {
     const source = nodeById.get(edge.source);
     const target = nodeById.get(edge.target);
+    if (!source || !target) return;
 
     const line = createSvgElement("line", {
       class: "edge",
@@ -275,13 +2410,12 @@ function render() {
       x2: target.x,
       y2: target.y
     });
-
     edgeLayer.appendChild(line);
   });
 
   nodes.forEach(node => {
     const g = createSvgElement("g", {
-      class: "graph-node " + (groupClass[node.group] || ""),
+      class: `graph-node node-${node.group || "default"}`,
       transform: `translate(${node.x}, ${node.y})`,
       tabindex: "0",
       role: "link",
@@ -289,52 +2423,62 @@ function render() {
     });
 
     const circle = createSvgElement("circle", {
-      r: node.id === "home" || node.id === "overview" ? 45 : 38
+      r: node.r || 32
     });
 
     const text = createSvgElement("text", {
       "text-anchor": "middle",
-      "dominant-baseline": "middle"
+      "dominant-baseline": "middle",
+      class: labelsVisible ? "" : "hidden-label"
     });
 
-    wrapSvgText(text, node.label, 0, 0, 84);
+    wrapSvgText(text, node.label, 0, 0);
 
     g.appendChild(circle);
     g.appendChild(text);
 
-    g.addEventListener("click", () => {
-      selectedNode.textContent = `${node.label} → ${node.url}`;
-      window.location.href = node.url;
-    });
-
+    g.addEventListener("click", () => openNode(node));
     g.addEventListener("keydown", event => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        window.location.href = node.url;
+        openNode(node);
       }
     });
-
     g.addEventListener("pointerdown", event => startDrag(event, node));
-
     g.addEventListener("mouseenter", () => {
       selectedNode.textContent = `${node.label}: ${node.description}`;
+      highlightConnected(node.id);
+    });
+    g.addEventListener("mouseleave", () => {
+      selectedNode.textContent = "Select a node";
+      render();
     });
 
     nodeLayer.appendChild(g);
   });
 
-  svg.appendChild(edgeLayer);
-  svg.appendChild(nodeLayer);
+  viewportGroup.appendChild(edgeLayer);
+  viewportGroup.appendChild(nodeLayer);
+  svg.appendChild(viewportGroup);
 }
 
-function wrapSvgText(textElement, label, x, y, maxWidth) {
+function openNode(node) {
+  selectedNode.textContent = `${node.label} → ${node.url}`;
+  if (node.url.startsWith("#")) {
+    history.replaceState(null, "", node.url);
+    return;
+  }
+  window.location.href = node.url;
+}
+
+function wrapSvgText(textElement, label, x, y) {
   const words = label.split(" ");
   const lines = [];
   let current = "";
 
   words.forEach(word => {
     const test = current ? `${current} ${word}` : word;
-    if (test.length > 13 && current) {
+    if (test.length > 14 && current) {
       lines.push(current);
       current = word;
     } else {
@@ -343,52 +2487,101 @@ function wrapSvgText(textElement, label, x, y, maxWidth) {
   });
   if (current) lines.push(current);
 
-  const lineHeight = 14;
+  const lineHeight = 13;
   const startY = y - ((lines.length - 1) * lineHeight) / 2;
 
   lines.forEach((line, index) => {
-    const tspan = createSvgElement("tspan", {
-      x,
-      y: startY + index * lineHeight
-    });
+    const tspan = createSvgElement("tspan", { x, y: startY + index * lineHeight });
     tspan.textContent = line;
     textElement.appendChild(tspan);
   });
 }
 
-function simulate(iterations = 90) {
-  // Fixed starting layout:
-  // Overview Worlds = center
-  // Learn / Research / Imagine / Develop = left / top / right / bottom
-  // The user can still drag nodes manually.
-  return;
+function highlightConnected(nodeId) {
+  const connected = new Set([nodeId]);
+  edges.forEach(edge => {
+    if (edge.source === nodeId) connected.add(edge.target);
+    if (edge.target === nodeId) connected.add(edge.source);
+  });
+
+  svg.querySelectorAll(".edge").forEach((line, index) => {
+    const edge = edges[index];
+    if (edge.source === nodeId || edge.target === nodeId) {
+      line.classList.add("edge-active");
+    } else {
+      line.classList.add("edge-muted");
+    }
+  });
+
+  svg.querySelectorAll(".graph-node").forEach((g, index) => {
+    const node = nodes[index];
+    if (!connected.has(node.id)) g.classList.add("node-muted");
+  });
 }
 
 let dragging = null;
 
 function startDrag(event, node) {
   event.preventDefault();
+  event.stopPropagation();
   dragging = node;
-  dragging.fixed = true;
   svg.setPointerCapture(event.pointerId);
   selectedNode.textContent = `${node.label}: dragging`;
 }
 
-svg.addEventListener("pointermove", event => {
-  if (!dragging) return;
+svg.addEventListener("pointerdown", event => {
+  if (event.target.closest && event.target.closest(".graph-node")) return;
+
   const point = getSvgPoint(event);
-  dragging.x = Math.max(70, Math.min(width - 70, point.x));
-  dragging.y = Math.max(70, Math.min(height - 70, point.y));
-  render();
+  panning = {
+    startX: point.x,
+    startY: point.y,
+    originalPanX: panX,
+    originalPanY: panY
+  };
+
+  svg.classList.add("is-panning");
+  svg.setPointerCapture(event.pointerId);
+  selectedNode.textContent = "Dragging space";
 });
 
-svg.addEventListener("pointerup", event => {
-  if (!dragging) return;
-  dragging.fixed = false;
-  selectedNode.textContent = `${dragging.label}: ${dragging.description}`;
-  dragging = null;
-  simulate(20);
-  render();
+svg.addEventListener("pointermove", event => {
+  const point = getSvgPoint(event);
+
+  if (dragging) {
+    dragging.x = Math.max(40, Math.min(1560, (point.x - panX) / zoomScale));
+    dragging.y = Math.max(40, Math.min(1280, (point.y - panY) / zoomScale));
+    render();
+    return;
+  }
+
+  if (panning) {
+    panX = panning.originalPanX + (point.x - panning.startX);
+    panY = panning.originalPanY + (point.y - panning.startY);
+    if (viewportGroup) {
+      viewportGroup.setAttribute("transform", `translate(${panX}, ${panY}) scale(${zoomScale})`);
+    }
+  }
+});
+
+svg.addEventListener("pointerup", () => {
+  if (dragging) {
+    selectedNode.textContent = `${dragging.label}: ${dragging.description}`;
+    dragging = null;
+  }
+
+  if (panning) {
+    panning = null;
+    svg.classList.remove("is-panning");
+    selectedNode.textContent = "Space moved";
+  }
+});
+
+svg.addEventListener("pointerleave", () => {
+  if (panning) {
+    panning = null;
+    svg.classList.remove("is-panning");
+  }
 });
 
 function getSvgPoint(event) {
@@ -398,21 +2591,50 @@ function getSvgPoint(event) {
   return point.matrixTransform(svg.getScreenCTM().inverse());
 }
 
+
+svg.addEventListener("wheel", event => {
+  if (!event.ctrlKey) return;
+
+  event.preventDefault();
+
+  const point = getSvgPoint(event);
+  const previousScale = zoomScale;
+  const zoomFactor = event.deltaY < 0 ? 1.12 : 1 / 1.12;
+
+  zoomScale = Math.max(minZoomScale, Math.min(maxZoomScale, zoomScale * zoomFactor));
+
+  // Zoom around the mouse position:
+  // point = pan + world * scale
+  // Keep the world coordinate under the cursor unchanged.
+  const worldX = (point.x - panX) / previousScale;
+  const worldY = (point.y - panY) / previousScale;
+
+  panX = point.x - worldX * zoomScale;
+  panY = point.y - worldY * zoomScale;
+
+  if (viewportGroup) {
+    viewportGroup.setAttribute("transform", `translate(${panX}, ${panY}) scale(${zoomScale})`);
+  }
+
+  selectedNode.textContent = `Zoom: ${Math.round(zoomScale * 100)}%`;
+}, { passive: false });
+
 resetButton.addEventListener("click", () => {
-  nodes.forEach(node => {
-    node.x = node.initialX;
-    node.y = node.initialY;
-    node.vx = 0;
-    node.vy = 0;
-    node.fixed = false;
-  });
+  resetPositions();
+  panX = 0;
+  panY = 0;
+  zoomScale = 1;
   render();
-  selectedNode.textContent = "Layout reset";
+  selectedNode.textContent = "Layout, pan, and zoom reset";
 });
 
+toggleLabelsButton.addEventListener("click", () => {
+  labelsVisible = !labelsVisible;
+  toggleLabelsButton.textContent = labelsVisible ? "Hide labels" : "Show labels";
+  render();
+});
 
 setInitialPositions();
-simulate();
 render();
 </script>
 </body>
